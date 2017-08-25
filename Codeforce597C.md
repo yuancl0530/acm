@@ -1,34 +1,34 @@
-# Codeforces 597C(树状数组 + dp)
+# CodeForces597C  
+## 题目  
+[codeforces597c](http://codeforces.com/problemset/problem/597/C)  
+>For the given sequence with n different elements find the number of increasing subsequences with k + 1 elements. It is guaranteed that the answer is not greater than 8·1018.
 
-## 题意
->给你一个长度为`n`的数组，问你长度为`k+1` 的上升子序列，一共有多少个
+>Input  
+First line contain two integer values n and k (1 ≤ n ≤ 105, 0 ≤ k ≤ 10) — the length of sequence and the number of elements in increasing subsequences.
 
-## 思路
->定义一个`dp[i][j]`的数组，表示前上升子序列中最后一个数字为`a[i]`并且长度为`j`的上升子序列的个数.  
-$$dp[i][j]=\sum_{k=1}^{a[k]-1} dp[k][j-1]$$
-#### 暴力的方法（显然会超时，用树状数组优化）
+>Next n lines contains one integer ai (1 ≤ ai ≤ n) each — elements of sequence. All values ai are different.
+
+>Output  
+Print one integer — the answer to the problem.
+## 题意  
+>给定一个没有重复元素的数列，求长度位`k+1`的递增子序列的的数目。  
+## 思路  
+>dp[x][y]表示以x为结尾的最长递增子序列的数目。  
+$$
+    dp[i][j]=\sum_{k=1}^{x-1}dp[k][j-1]  
+$$  
+显然会超时，用树状数组优化  
+## 代码  
 ```
-for (int i = 1;i <= n;i++){
-	for (int j = 1;j <= min(i,k);j++){
-		if (j == 1){
-			dp[i][j] = 1;
-		}
-		for (int k = 1;k < a[i];k++)
-			dp[a[i][j] += dp[k][j-1];
-	}
-long long ans = 0;
-for (int i = 1;i <= n;i++)
-	ans += dp[i][k];
-
-```
-## 代码
-
-```
+/*********************************
+Date: Fri Aug 25 19:34:42 CST 2017
+*********************************/
 #include <iostream>
 #include <cstdio>
 #include <string>
 #include <cstring>
 #include <cmath>
+#include <cctype>
 #include <cstdlib>
 #include <algorithm>
 #include <queue>
@@ -37,56 +37,56 @@ for (int i = 1;i <= n;i++)
 #include <vector>
 #include <list>
 #include <set>
+#include <sstream>
 using namespace std;
-#define CL(a) memset(a,0,sizeof(a));
+#define CL(a) memset(a,0,sizeof(a))
+#define Cl(a,b) memset(a,b,sizeof(a))
+#define MP(a,b) make_pair(a,b)
 #define INF 0x7fffffff
-const int maxn = 1e5+10;
-long long dp[maxn][15];//dp[x][y]表示最后一个元素为a[x]的并且长度为y的上升子序列的个数
-long long a[maxn];
-int n;
-int lowbit(int x){return x&-x;}
-long long Sum(int x,int y)
+#define LL long long
+const int MOD = 1e9 + 7;
+const int maxn = 1e5 + 100;
+const int maxm = 15;
+LL dp[maxn][maxm];
+int a[maxn];
+int lowbit(int x){return x&(-x);}
+int n,k;
+LL sum(int p,int len)
 {
-	long long ret = 0;
-	while (x > 0){
-		ret += dp[x][y];
-		x -= lowbit(x);
+	LL sum=0;
+	while (p>0){
+		sum+=dp[p][len];
+		p-=lowbit(p);
 	}
-	return ret;
+	return sum;
 }
-void update(int x,int y,long long d)
+LL update(int pos,int len,LL value)
 {
-	while (x <= n){
-		dp[x][y] += d;
-		x += lowbit(x);
+	while (pos<=n){
+		dp[pos][len]+=value;
+		pos+=lowbit(pos);
 	}
-
 }
 int main()
 {
-	int k;
 	while (scanf("%d%d",&n,&k) != EOF){
-		k++;
 		CL(dp);
-		for (int i = 1;i <= n;i++)
-			scanf("%lld",&a[i]);
-		
-		for (int i = 1;i <= n;i++){
-			for (int j = 1;j <= min(i+1,k);j++){
-				if (j == 1)
+		for (int i=1;i<=n;i++){
+			scanf("%d",&a[i]);
+		}
+		for (int i=1;i<=n;i++){
+			for (int j=1;j<=min(i,k+1);j++){
+				if (j==1)
 					update(a[i],1,1);
 				else{
-					long long temp = Sum(a[i]-1,j-1);
+					LL temp=sum(a[i]-1,j-1);
 					update(a[i],j,temp);
 				}
 			}
 		}
+		printf("%lld\n",sum(n,k+1));
 	}
 	return 0;
 }
-
-
-
-
 
 ```
