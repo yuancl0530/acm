@@ -1,5 +1,5 @@
 /*********************************
-Date: Tue Sep  5 19:54:58 CST 2017
+Date: Wed Sep  6 13:03:29 CST 2017
 *********************************/
 #include <iostream>
 #include <cstdio>
@@ -29,35 +29,35 @@ char s[maxn];
 char str[maxn];
 void getNext(char *s,int *next)
 {
-	int k=0;
+	int k=-1;
 	int len=strlen(s);
-	for (int i=0;i<len;i++){
-		while (k>0&&s[k]!=s[i])
+	next[0]=-1;
+	for (int i=1;i<len;++i){
+		while (k>=0&&s[k+1]!=s[i])
 			k=next[k];
-		if (s[i]==s[k])
+		if (s[k+1]==s[i])
 			++k;
 		next[i]=k;
 	}
 }
-int KMPMatch(char *s,char *str,int *next)
+int KMPmatch(char *s,char *str,int *next)
 {
 	getNext(s,next);
 	int len=strlen(s);
-	int k=0;
+	int k=-1;
 	for (int i=0;str[i];++i){
-		while (k>0&&s[k]!=str[i])
+		while (k>=0&&s[k+1]!=str[i])
 			k=next[k];
-		if (s[k]==str[i])
-			k++;
-		if (k==len) return i-len+1;
+		if (s[k+1]==str[i])
+			++k;
+		if (k+1==len)
+			return i-len+1;
 	}
-	return -1;
 }
 int main()
 {
 	cin>>str>>s;
-	cout<<KMPMatch(s,str,next)<<endl;
-
+	cout<<KMPmatch(s,str,next)<<endl;
 
 	return 0;
 }
