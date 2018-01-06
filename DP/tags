@@ -1,0 +1,337 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CL	01_1.cpp	16;"	d	file:
+CL	1021.cpp	21;"	d	file:
+CL	51nod1009.cpp	16;"	d	file:
+CL	51nod1020.cpp	16;"	d	file:
+CL	51nod1022.cpp	21;"	d	file:
+CL	51nod1042.cpp	16;"	d	file:
+CL	51nod1043m.cpp	16;"	d	file:
+CL	51nod1052.cpp	21;"	d	file:
+CL	51nod1101.cpp	16;"	d	file:
+CL	51nod1154.cpp	16;"	d	file:
+CL	51nod1201.cpp	16;"	d	file:
+CL	51nod1241.cpp	21;"	d	file:
+CL	51nod1243.cpp	16;"	d	file:
+CL	51nod1270.cpp	16;"	d	file:
+CL	editdis.cpp	12;"	d	file:
+CL	hdu1248.cpp	16;"	d	file:
+CL	hdu3555.cpp	16;"	d	file:
+CL	hdu5119.cpp	20;"	d	file:
+CL	hdu6170.cpp	20;"	d	file:
+CL	lis.cpp	12;"	d	file:
+CL	m01.cpp	16;"	d	file:
+CL	nod1002.cpp	16;"	d	file:
+CL	nod1021.cpp	16;"	d	file:
+CL	std/A.cpp	16;"	d	file:
+CL	std/B.cpp	12;"	d	file:
+CL	std/C.cpp	16;"	d	file:
+CL	std/D.cpp	16;"	d	file:
+CL	std/E.cpp	16;"	d	file:
+CL	std/F.cpp	16;"	d	file:
+CL	std/G.cpp	16;"	d	file:
+CL	std/H.cpp	16;"	d	file:
+CL	std/I.cpp	16;"	d	file:
+CL	test.cpp	16;"	d	file:
+CL	zxl.cpp	16;"	d	file:
+Cl	01_1.cpp	17;"	d	file:
+Cl	1021.cpp	22;"	d	file:
+Cl	51nod1009.cpp	17;"	d	file:
+Cl	51nod1020.cpp	17;"	d	file:
+Cl	51nod1022.cpp	22;"	d	file:
+Cl	51nod1042.cpp	17;"	d	file:
+Cl	51nod1043m.cpp	17;"	d	file:
+Cl	51nod1052.cpp	22;"	d	file:
+Cl	51nod1101.cpp	17;"	d	file:
+Cl	51nod1154.cpp	17;"	d	file:
+Cl	51nod1201.cpp	17;"	d	file:
+Cl	51nod1241.cpp	22;"	d	file:
+Cl	51nod1243.cpp	17;"	d	file:
+Cl	51nod1270.cpp	17;"	d	file:
+Cl	hdu1248.cpp	17;"	d	file:
+Cl	hdu3555.cpp	17;"	d	file:
+Cl	hdu5119.cpp	21;"	d	file:
+Cl	hdu6170.cpp	21;"	d	file:
+Cl	m01.cpp	17;"	d	file:
+Cl	nod1002.cpp	17;"	d	file:
+Cl	nod1021.cpp	17;"	d	file:
+Cl	std/A.cpp	17;"	d	file:
+Cl	std/C.cpp	17;"	d	file:
+Cl	std/D.cpp	17;"	d	file:
+Cl	std/E.cpp	17;"	d	file:
+Cl	std/F.cpp	17;"	d	file:
+Cl	std/G.cpp	17;"	d	file:
+Cl	std/H.cpp	17;"	d	file:
+Cl	std/I.cpp	17;"	d	file:
+Cl	test.cpp	17;"	d	file:
+Cl	zxl.cpp	17;"	d	file:
+INF	01_1.cpp	18;"	d	file:
+INF	1021.cpp	24;"	d	file:
+INF	51nod1009.cpp	18;"	d	file:
+INF	51nod1020.cpp	18;"	d	file:
+INF	51nod1022.cpp	24;"	d	file:
+INF	51nod1042.cpp	18;"	d	file:
+INF	51nod1043m.cpp	18;"	d	file:
+INF	51nod1052.cpp	24;"	d	file:
+INF	51nod1101.cpp	18;"	d	file:
+INF	51nod1154.cpp	18;"	d	file:
+INF	51nod1201.cpp	18;"	d	file:
+INF	51nod1241.cpp	24;"	d	file:
+INF	51nod1243.cpp	18;"	d	file:
+INF	51nod1270.cpp	18;"	d	file:
+INF	editdis.cpp	/^const int INF= 0x7fffffff;$/;"	v
+INF	hdu1248.cpp	18;"	d	file:
+INF	hdu3555.cpp	18;"	d	file:
+INF	hdu5119.cpp	22;"	d	file:
+INF	hdu6170.cpp	22;"	d	file:
+INF	lis.cpp	/^const int INF = 0x7fffffff;$/;"	v
+INF	m01.cpp	18;"	d	file:
+INF	nod1002.cpp	18;"	d	file:
+INF	nod1021.cpp	18;"	d	file:
+INF	std/A.cpp	18;"	d	file:
+INF	std/B.cpp	/^const int INF= 0x7fffffff;$/;"	v
+INF	std/C.cpp	18;"	d	file:
+INF	std/D.cpp	18;"	d	file:
+INF	std/E.cpp	18;"	d	file:
+INF	std/F.cpp	18;"	d	file:
+INF	std/G.cpp	18;"	d	file:
+INF	std/H.cpp	18;"	d	file:
+INF	std/I.cpp	18;"	d	file:
+INF	test.cpp	18;"	d	file:
+INF	zxl.cpp	18;"	d	file:
+INFLL	1021.cpp	25;"	d	file:
+INFLL	51nod1022.cpp	25;"	d	file:
+INFLL	51nod1052.cpp	25;"	d	file:
+INFLL	51nod1241.cpp	25;"	d	file:
+Init	std/I.cpp	/^void Init()$/;"	f
+LL	01_1.cpp	19;"	d	file:
+LL	1021.cpp	26;"	d	file:
+LL	51nod1009.cpp	19;"	d	file:
+LL	51nod1020.cpp	19;"	d	file:
+LL	51nod1022.cpp	26;"	d	file:
+LL	51nod1042.cpp	19;"	d	file:
+LL	51nod1043m.cpp	19;"	d	file:
+LL	51nod1052.cpp	26;"	d	file:
+LL	51nod1101.cpp	19;"	d	file:
+LL	51nod1154.cpp	19;"	d	file:
+LL	51nod1201.cpp	19;"	d	file:
+LL	51nod1241.cpp	26;"	d	file:
+LL	51nod1243.cpp	19;"	d	file:
+LL	51nod1270.cpp	19;"	d	file:
+LL	editdis.cpp	13;"	d	file:
+LL	hdu1248.cpp	19;"	d	file:
+LL	hdu3555.cpp	19;"	d	file:
+LL	hdu5119.cpp	23;"	d	file:
+LL	hdu6170.cpp	23;"	d	file:
+LL	m01.cpp	19;"	d	file:
+LL	nod1002.cpp	19;"	d	file:
+LL	nod1021.cpp	19;"	d	file:
+LL	std/A.cpp	19;"	d	file:
+LL	std/B.cpp	13;"	d	file:
+LL	std/C.cpp	19;"	d	file:
+LL	std/D.cpp	19;"	d	file:
+LL	std/E.cpp	19;"	d	file:
+LL	std/F.cpp	19;"	d	file:
+LL	std/G.cpp	19;"	d	file:
+LL	std/H.cpp	19;"	d	file:
+LL	std/I.cpp	19;"	d	file:
+LL	std/test.cpp	11;"	d	file:
+LL	test.cpp	19;"	d	file:
+LL	zxl.cpp	19;"	d	file:
+MAX	hdu1248.cpp	/^const int MAX = 1e4;$/;"	v
+MOD	1021.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1009.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1020.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1022.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1042.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1043m.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1052.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1101.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1154.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1201.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1241.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	51nod1243.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	hdu3555.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	hdu5119.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	hdu6170.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	std/A.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	std/C.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	std/D.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	std/E.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	std/F.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	std/G.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	std/H.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	std/I.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	test.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MOD	zxl.cpp	/^const int MOD = 1e9 + 7;$/;"	v
+MP	1021.cpp	23;"	d	file:
+MP	51nod1022.cpp	23;"	d	file:
+MP	51nod1052.cpp	23;"	d	file:
+MP	51nod1241.cpp	23;"	d	file:
+Max	51nod1101.cpp	/^const int Max = 1e5 ;$/;"	v
+YOUHUA	01_1.cpp	20;"	d	file:
+YOUHUA	m01.cpp	20;"	d	file:
+a	1021.cpp	/^int sum[110],a[110];$/;"	v
+a	51nod1009.cpp	/^int a[15];$/;"	v
+a	51nod1022.cpp	/^int a[maxn],sum[maxn];$/;"	v
+a	51nod1042.cpp	/^LL a[30];$/;"	v
+a	51nod1052.cpp	/^int a[maxn];$/;"	v
+a	51nod1154.cpp	/^char a[maxn];$/;"	v
+a	editdis.cpp	/^char a[maxn];$/;"	v
+a	hdu3555.cpp	/^int a[30];$/;"	v
+a	hdu5119.cpp	/^int a[maxn];$/;"	v
+a	hdu6170.cpp	/^char a[maxn];$/;"	v
+a	lis.cpp	/^int a[maxn];$/;"	v
+a	nod1002.cpp	/^int a[maxn][maxn];$/;"	v
+a	nod1021.cpp	/^int a[maxn];$/;"	v
+a	std/B.cpp	/^LL a[maxn];$/;"	v
+a	std/C.cpp	/^char a[maxn];$/;"	v
+a	std/D.cpp	/^char a[maxn];$/;"	v
+a	std/E.cpp	/^char a[maxn];$/;"	v
+a	std/F.cpp	/^int a[maxn];$/;"	v
+a	std/test.cpp	/^int a[50005]={0};$/;"	v
+a	test.cpp	/^int a[maxn];$/;"	v
+a	zxl.cpp	/^int a[maxn];$/;"	v
+ans	51nod1022.cpp	/^int ans;$/;"	v
+b	51nod1042.cpp	/^LL b[30];$/;"	v
+b	51nod1270.cpp	/^int b[maxn];$/;"	v
+b	editdis.cpp	/^char b[maxn];$/;"	v
+b	hdu6170.cpp	/^char b[maxn];$/;"	v
+b	std/C.cpp	/^char b[maxn];$/;"	v
+b	std/D.cpp	/^char b[maxn];$/;"	v
+b	std/E.cpp	/^char b[maxn];$/;"	v
+bit	51nod1042.cpp	/^int bit[30];$/;"	v
+c	m01.cpp	/^int c[maxn];$/;"	v
+cal	51nod1042.cpp	/^void cal(LL n,LL * a)$/;"	f
+dp	01_1.cpp	/^int dp[110][maxn];$/;"	v
+dp	1021.cpp	/^int dp[maxn][110];$/;"	v
+dp	51nod1009.cpp	/^LL dp[11][10];\/\/i bits with j first $/;"	v
+dp	51nod1020.cpp	/^int dp[maxn][maxm];$/;"	v
+dp	51nod1022.cpp	/^int dp[maxn][maxn],s[maxn][maxn];$/;"	v
+dp	51nod1042.cpp	/^LL dp[20];$/;"	v
+dp	51nod1043m.cpp	/^LL dp[1010][maxn];$/;"	v
+dp	51nod1052.cpp	/^LL dp[2][maxn][2];\/\/0 on 1 not $/;"	v
+dp	51nod1154.cpp	/^int dp[maxn];$/;"	v
+dp	51nod1201.cpp	/^LL dp[maxn][maxm];$/;"	v
+dp	51nod1270.cpp	/^int dp[maxn][2];$/;"	v
+dp	editdis.cpp	/^long long dp[maxn][maxn];$/;"	v
+dp	hdu3555.cpp	/^LL dp[22][3];$/;"	v
+dp	hdu5119.cpp	/^LL dp[45][maxn];$/;"	v
+dp	hdu6170.cpp	/^bool dp[maxn][maxn];$/;"	v
+dp	m01.cpp	/^int dp[110][maxn];$/;"	v
+dp	nod1002.cpp	/^int dp[maxn][maxn];$/;"	v
+dp	nod1021.cpp	/^LL dp[maxn][maxn];$/;"	v
+dp	std/C.cpp	/^int dp[maxn][maxn];$/;"	v
+dp	std/D.cpp	/^int dp[maxn][maxn];$/;"	v
+dp	std/E.cpp	/^int dp[maxn][maxn];$/;"	v
+dp	std/F.cpp	/^int dp[maxn];$/;"	v
+dp	std/G.cpp	/^LL dp[maxn];$/;"	v
+dp	std/H.cpp	/^int dp[maxn][maxn];$/;"	v
+dp	std/I.cpp	/^int dp[maxn][maxm];$/;"	v
+dp	zxl.cpp	/^LL dp[maxn];$/;"	v
+f	01_1.cpp	/^int f[maxn];$/;"	v
+f	51nod1009.cpp	/^int f[15];$/;"	v
+f	51nod1101.cpp	/^LL f[maxn];$/;"	v
+f	hdu1248.cpp	/^int f[maxn];$/;"	v
+f	m01.cpp	/^int f[maxn];$/;"	v
+fun	51nod1042.cpp	/^int fun(LL n)$/;"	f
+m	1021.cpp	/^int n,m;$/;"	v
+m	51nod1052.cpp	/^int n,m;$/;"	v
+main	01_1.cpp	/^int main()$/;"	f
+main	1021.cpp	/^int main()$/;"	f
+main	51nod1009.cpp	/^int main()$/;"	f
+main	51nod1020.cpp	/^int main()$/;"	f
+main	51nod1022.cpp	/^int main()$/;"	f
+main	51nod1042.cpp	/^int main()$/;"	f
+main	51nod1043m.cpp	/^int main()$/;"	f
+main	51nod1052.cpp	/^int main()$/;"	f
+main	51nod1101.cpp	/^int main()$/;"	f
+main	51nod1154.cpp	/^int main()$/;"	f
+main	51nod1201.cpp	/^int main()$/;"	f
+main	51nod1241.cpp	/^int main()$/;"	f
+main	51nod1243.cpp	/^int main()$/;"	f
+main	51nod1270.cpp	/^int main()$/;"	f
+main	editdis.cpp	/^int main()$/;"	f
+main	hdu1248.cpp	/^int main()$/;"	f
+main	hdu3555.cpp	/^int main()$/;"	f
+main	hdu5119.cpp	/^int main()$/;"	f
+main	hdu6170.cpp	/^int main()$/;"	f
+main	lis.cpp	/^int main()$/;"	f
+main	m01.cpp	/^int main()$/;"	f
+main	nod1002.cpp	/^int main()$/;"	f
+main	nod1021.cpp	/^int main()$/;"	f
+main	std/A.cpp	/^int main()$/;"	f
+main	std/B.cpp	/^int main()$/;"	f
+main	std/C.cpp	/^int main()$/;"	f
+main	std/D.cpp	/^int main()$/;"	f
+main	std/E.cpp	/^int main()$/;"	f
+main	std/F.cpp	/^int main()$/;"	f
+main	std/G.cpp	/^int main()$/;"	f
+main	std/H.cpp	/^int main()$/;"	f
+main	std/I.cpp	/^int main()$/;"	f
+main	std/test.cpp	/^int main()$/;"	f
+main	test.cpp	/^int main()$/;"	f
+main	zxl.cpp	/^int main()$/;"	f
+maxm	51nod1020.cpp	/^const int maxm = 2e4 + 1;$/;"	v
+maxm	51nod1201.cpp	/^const int maxm = 320 + 10;$/;"	v
+maxm	std/I.cpp	/^const int maxm = 2e4 + 100;$/;"	v
+maxn	01_1.cpp	/^const int maxn = 1e4 + 10;$/;"	v
+maxn	1021.cpp	/^const int maxn = 1e4 + 100;$/;"	v
+maxn	51nod1009.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	51nod1020.cpp	/^const int maxn = 1e3 + 1;$/;"	v
+maxn	51nod1022.cpp	/^const int maxn = 2e3 + 100;$/;"	v
+maxn	51nod1042.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	51nod1043m.cpp	/^const int maxn = 1e4;$/;"	v
+maxn	51nod1052.cpp	/^const int maxn = 5e3 + 100;$/;"	v
+maxn	51nod1101.cpp	/^const int maxn = 1e5 + 100;$/;"	v
+maxn	51nod1154.cpp	/^const int maxn = 5e3 + 10;$/;"	v
+maxn	51nod1201.cpp	/^const int maxn = 5e4 + 10;$/;"	v
+maxn	51nod1241.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	51nod1243.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	51nod1270.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	editdis.cpp	/^const int maxn = 1e3 + 100;$/;"	v
+maxn	hdu1248.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	hdu3555.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	hdu5119.cpp	/^const int maxn = 1e6+ 100;$/;"	v
+maxn	hdu6170.cpp	/^const int maxn = 3e3 + 100;$/;"	v
+maxn	lis.cpp	/^const int maxn = 5e4+100;$/;"	v
+maxn	m01.cpp	/^const int maxn = 5e4 + 100;$/;"	v
+maxn	nod1002.cpp	/^const int maxn = 1e3 + 100;$/;"	v
+maxn	nod1021.cpp	/^const int maxn = 1e2 + 100;$/;"	v
+maxn	std/A.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	std/B.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	std/C.cpp	/^const int maxn = 1e3 + 100;$/;"	v
+maxn	std/D.cpp	/^const int maxn = 1e3 + 100;$/;"	v
+maxn	std/E.cpp	/^const int maxn = 1e3 + 100;$/;"	v
+maxn	std/F.cpp	/^const int maxn = 5e4 + 100;$/;"	v
+maxn	std/G.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	std/H.cpp	/^const int maxn = 1e2 + 100;$/;"	v
+maxn	std/I.cpp	/^const int maxn = 1e3 + 10;$/;"	v
+maxn	test.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+maxn	zxl.cpp	/^const int maxn = 1e6 + 100;$/;"	v
+n	1021.cpp	/^int n,m;$/;"	v
+n	51nod1022.cpp	/^int n;$/;"	v
+n	51nod1052.cpp	/^int n,m;$/;"	v
+p	01_1.cpp	/^int p[maxn];$/;"	v
+p	m01.cpp	/^int p[maxn];$/;"	v
+pos	lis.cpp	/^int pos[maxn];$/;"	v
+pos	std/G.cpp	/^int pos[maxn];$/;"	v
+pos	zxl.cpp	/^int pos[maxn];$/;"	v
+print	std/D.cpp	/^void print(int x,int y)$/;"	f
+s	51nod1022.cpp	/^int dp[maxn][maxn],s[maxn][maxn];$/;"	v
+solve	1021.cpp	/^void solve()$/;"	f
+solve	51nod1022.cpp	/^void solve()$/;"	f
+solve	51nod1052.cpp	/^void solve()$/;"	f
+sum	1021.cpp	/^int sum[110],a[110];$/;"	v
+sum	51nod1022.cpp	/^int a[maxn],sum[maxn];$/;"	v
+sum	nod1021.cpp	/^LL sum[maxn][maxn];$/;"	v
+sum	std/A.cpp	/^LL sum[maxn];$/;"	v
+sum	test.cpp	/^LL sum[maxn];$/;"	v
+test	51nod1042.cpp	/^LL test[20];$/;"	v
+w	01_1.cpp	/^int w[maxn];$/;"	v
+w	hdu1248.cpp	/^int w[10];$/;"	v
+w	m01.cpp	/^int w[maxn];$/;"	v

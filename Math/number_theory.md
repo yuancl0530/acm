@@ -27,7 +27,7 @@ $设d=gcd(a,b)$,
 $$ax+by=d.........(1)$$  
 存在x',y',  
 $$bx'+(a\%b)y'=d....(2)$$
-展开(2)得,$bx'+(a-a/b*b)y',=>ay'+b(x'-a/b*y')$,  
+展开(2)得,$$bx'+(a-a/b*b)y'=b\to ay'+b(x'-a/b*y')=b$$ 
 则\begin{cases}x=y'\\y=x'-a/b*y\end{cases}
 ### 实现代码
 ```
@@ -35,7 +35,7 @@ int exgcd(int a,int b,int &x,int &y)
 {
     if(b==0){x=1,y=0;return a;}
     int d = exgcd(b,a%b,x,y);
-    int t = y;
+    int t = x;
     x = y;
     y = t - a/b*y;
     return d;
