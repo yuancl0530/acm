@@ -24,11 +24,11 @@ using namespace std;
 #define INF 0x7fffffff
 #define LL long long
 const int MOD = 1e9 + 7;
-const int maxn = 1e6 + 100;
+const int maxn = 5e3 + 10;
 char s[maxn];
-int dp[5010][5010];
-int ml[5010];
-int mr[5010];
+bool dp[maxn][maxn];
+int ml[maxn];
+int mr[maxn];
 int main()
 {
 	CL(dp);
@@ -46,9 +46,7 @@ int main()
 				ml[l]=max(ml[i],r);
 				mr[r]=min(mr[r],l);
 			}
-			else 
-				dp[l][r]=0;
-			if (dp[l][r]==0){
+			else if (dp[l][r]==0){
 				for (int j=mr[r]-1;j<ml[l]+1;++j){
 					if (dp[l][j] && dp[j+1][r]){
 						dp[l][r]=1;
@@ -58,6 +56,8 @@ int main()
 					}
 				}
 			}
+			else 
+				dp[l][r]=0;
 		}
 	}
 	int ans=0;
