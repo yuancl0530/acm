@@ -1,5 +1,5 @@
 /*********************************
-Date: Wed Jan 31 22:12:36 CST 2018
+Date: Thu Feb  1 13:54:04 CST 2018
 Author: ycl
 *********************************/
 #include <iostream>
@@ -24,57 +24,65 @@ using namespace std;
 #define INF 0x7fffffff
 #define LL long long
 const int MOD = 1e9 + 7;
-const int maxn = 3e5 + 100;
-vector<int>Edge[maxn];
+const int maxn = 1e6 + 100;
 int deg[maxn];
-char s[maxn];
-int cnt[30];
-int res;
-int vs[maxn];
-int flag=0;
-int visit[maxn];
-void dfs(int t)
+int dp[maxn][30];
+char value[maxn];
+int n,m;
+int ID(int i)
 {
-	if (flag){
-		return ;
+	return value[i]-'a';
+}
+vector<int> Edge[maxn];
+int solve()
+{
+	int cnt=0;
+	queue<int>Q;
+	for (int i=1;i<=n;++i)
+		if (!deg[i]){
+			Q.push(i);
+			++cnt;
+			++dp[i][ID(i)];
+		}
+	while (!Q.empty()){
+		int u = Q.front();
+		Q.pop();
+		for (int i=0;i<Edge[u].size();++i){
+			int v = Edge[u][i];
+			--deg[v];
+			for (int j=0;j<26;++j){
+				if (j!= ID(v))
+					dp[v][j] = max(dp[u][j],dp[v][j]);
+				else
+					dp[v][j] = max(dp[u][j]+1,dp[v][j]);
+					
+			}
+			if (!deg[v]){
+				++cnt;
+				Q.push(v);
+			}
+		}
 	}
-	if (vs[t]){
-		flag=1;
-		return ;
+	if (cnt != n)
+		return -1;
+	int ret = -1;
+	for (int i=1;i<=n;++i){
+		for (int j=0;j<26;++j)
+			ret = max(ret,dp[i][j]);
 	}
-	int id = s[t-1]-'a';
-	++cnt[id];
-	if (cnt[id] > res) res = cnt[id];
-	vs[t]=1;
-	for (int i=0;i<Edge[t].size();++i){
-		dfs(Edge[t][i]);
-	}
-	vs[t]=0;
-	cnt[id]--;
+	return ret;
 }
 int main()
 {
-	int n,m;
 	scanf("%d%d",&n,&m);
-	scanf("%s",s);
+	scanf("%s",value+1);
+	int u,v;
 	for (int i=0;i<m;++i){
-		int u,v;
 		scanf("%d%d",&u,&v);
 		Edge[u].push_back(v);
 		deg[v]++;
 	}
-	int ans = -1;
-	for (int i=1;i<=n;++i){
-		if (!deg[i] && Edge[i].size()){
-			res=0;
-			dfs(i);
-			ans=max(ans,res);
-			if (flag){
-				cout<<-1<<endl;
-				return 0;
-			}
-		}	
-	}
+	int ans = solve();
 	printf("%d\n",ans);
 	return 0;
 }
