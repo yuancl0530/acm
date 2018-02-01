@@ -1,5 +1,5 @@
 /*********************************
-Date: Tue Jan 30 21:48:16 CST 2018
+Date: Wed Jan 31 21:09:14 CST 2018
 Author: ycl
 *********************************/
 #include <iostream>
@@ -25,29 +25,41 @@ using namespace std;
 #define LL long long
 const int MOD = 1e9 + 7;
 const int maxn = 1e6 + 100;
-int a[maxn];
+LL m[maxn];
+int cnt=0;
+int check(LL n)
+{
+	int res=0;
+	while (n){
+		res+=n%10;
+		n/=10;
+	}
+	return res;
+}
+void dfs(LL a=0)
+{
+	LL t = check(a);
+	if (t==10){
+		m[cnt++] = a;
+		while (a<1e10){
+			a*=10;
+			m[cnt++]=a;
+		}
+		return;
+	}
+	if (t>10 || a==0 || a>1e11) return ;
+	for (int i=0;i<10;++i){
+		dfs(a*10+i);
+	}
+}
 int main()
 {
-	int n,k;
-	scanf("%d%d",&n,&k);
-	for (int i=0;i<n;++i)
-		scanf("%d",&a[i]);
-	LL ans = 0;
-	for (int i=0;k && i<n;++i,--k){
-		if (a[i]<0)
-			a[i] = -a[i];
-		else if (k&1){
-			if (i==0 || a[i] > a[i-1]) 
-				a[i] = -a[i];
-			else 
-				a[i-1] = -a[i-1];
-			break;
-		}
-		else 
-			break;
-	}
-	for (int i=0;i<n;++i)
-		ans+=a[i];
-	printf("%lld\n",ans);
+	for (int i=1;i<=9;++i)
+		dfs(i);
+	sort(m,m+cnt);
+	cout<<cnt<<endl;
+/*	int k;
+	scanf("%d",&k);
+	printf("%lld\n",m[k-1]);*/
 	return 0;
 }

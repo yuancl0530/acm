@@ -1,5 +1,5 @@
 /*********************************
-Date: Tue Jan 30 21:48:16 CST 2018
+Date: Thu Feb  1 00:06:00 CST 2018
 Author: ycl
 *********************************/
 #include <iostream>
@@ -25,29 +25,38 @@ using namespace std;
 #define LL long long
 const int MOD = 1e9 + 7;
 const int maxn = 1e6 + 100;
-int a[maxn];
+int a[maxn],b;
+int n,m;
+int bSearch(int key)
+{
+	int l=0;
+	int r=n;
+	int mid;
+	while (l+1 < r){
+		mid = (l+r)>>1;
+		if (a[mid] <= key)
+			l=mid;
+		else
+			r=mid;
+	}
+	if (a[l] == key)
+		return true;
+	return false;
+}
 int main()
 {
-	int n,k;
-	scanf("%d%d",&n,&k);
+	scanf("%d",&n);
 	for (int i=0;i<n;++i)
 		scanf("%d",&a[i]);
-	LL ans = 0;
-	for (int i=0;k && i<n;++i,--k){
-		if (a[i]<0)
-			a[i] = -a[i];
-		else if (k&1){
-			if (i==0 || a[i] > a[i-1]) 
-				a[i] = -a[i];
-			else 
-				a[i-1] = -a[i-1];
-			break;
-		}
-		else 
-			break;
+	sort(a,a+n);
+	scanf("%d",&m);
+	int ans=0;
+	for (int i=0;i<m;++i){
+		scanf("%d",&b);
+		if (bSearch(b))
+			++ans;
 	}
-	for (int i=0;i<n;++i)
-		ans+=a[i];
-	printf("%lld\n",ans);
+	printf("%d\n",ans);
+
 	return 0;
 }
