@@ -1,72 +1,44 @@
-#include <cstdio>
-#include <iostream>
-#include <algorithm>
-#include <cstring>
+#include <bits/stdc++.h>
 using namespace std;
-
-char s[107];
-void print(char a)
-{
-    switch(a){
-    case 'A' : printf(".-"); break;
-    case 'B' : printf("-..."); break;
-    case 'C' : printf("-.-."); break;
-    case 'D' : printf("-.."); break;
-    case 'E' : printf("."); break;
-    case 'F' : printf("..-."); break;
-    case 'G' : printf("--."); break;
-    case 'H' : printf("...."); break;
-    case 'I' : printf(".."); break;
-    case 'J' : printf(".---"); break;
-    case 'K' : printf("-.-"); break;
-    case 'L' : printf(".-.."); break;
-    case 'M' : printf("--"); break;
-    case 'N' : printf("-."); break;
-    case 'O' : printf("---"); break;
-    case 'P' : printf(".--."); break;
-    case 'Q' : printf("--.-"); break;
-    case 'R' : printf(".-."); break;
-    case 'S' : printf("..."); break;
-    case 'T' : printf("-"); break;
-    case 'U' : printf("..-"); break;
-    case 'V' : printf("...-"); break;
-    case 'W' : printf(".--"); break;
-    case 'X' : printf("-..-"); break;
-    case 'Y' : printf("-.--"); break;
-    case 'Z' : printf("--.."); break;
-    case '0' : printf("-----"); break;
-    case '1' : printf(".----"); break;
-    case '2' : printf("..---"); break;
-    case '3' : printf("...--"); break;
-    case '4' : printf("....-"); break;
-    case '5' : printf("....."); break;
-    case '6' : printf("-...."); break;
-    case '7' : printf("--..."); break;
-    case '8' : printf("---.."); break;
-    case '9' : printf("----."); break;
+int n;
+int a[200010];
+char c[200010];
+int main(int argc, char const *argv[]) {
+    scanf("%d", &n);
+    for (int i = 1; i <= n; i++) {
+        scanf("%d", &a[i]);
     }
-}
-int main()
-{
-    int n,nn,t;
-    scanf("%d",&t);
-    while(t--)
-    {
-        scanf("%d",&n);
-        for(int j=0;j<n;j++)
-        {
-            scanf("%s",s);
-            nn=strlen(s);
-            for(int i=0;i<nn;i++)
-            {
-                s[i]=toupper(s[i]);
-                print(s[i]);
-            
-                    printf(" ");
+    getchar();
+    int pre = -1;
+    for (int i = 1; i < n; i++) {
+        c[i] = getchar();
+        if (c[i] == '0') {
+            if (pre != -1) {
+                sort(a + pre, a + i + 1);
+                // std::cout << pre << " " << i << '\n';
+            } else {
+                sort(a + 1, a + i + 1);
             }
-            printf("\n");
+            pre = i + 1;
         }
-        printf("\n");
+    }
+    if (pre != n && pre != -1) {
+        sort(a + pre, a + n + 1);
+    }
+    if (pre == -1) {
+        sort(a + 1, a + n + 1);
+    }
+    bool fl = 1;
+    for (int i = 2; i <= n; i++) {
+        if (a[i] < a[i - 1]) {
+            fl = 0;
+            break;
+        }
+    }
+    if (fl) {
+        puts("YES");
+    } else {
+        puts("NO");
     }
     return 0;
 }

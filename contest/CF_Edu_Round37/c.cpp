@@ -1,5 +1,5 @@
 /*********************************
-Date: Tue Jan 30 21:48:16 CST 2018
+Date: Fri Feb  2 23:43:09 CST 2018
 Author: ycl
 *********************************/
 #include <iostream>
@@ -26,28 +26,41 @@ using namespace std;
 const int MOD = 1e9 + 7;
 const int maxn = 1e6 + 100;
 int a[maxn];
+char s[maxn];
+int dl[maxn],dr[maxn];
 int main()
 {
-	int n,k;
-	scanf("%d%d",&n,&k);
+	int n;
+	scanf("%d",&n);
 	for (int i=0;i<n;++i)
 		scanf("%d",&a[i]);
-	LL ans = 0;
-	for (int i=0;k && i<n;++i,--k){
-		if (a[i]<0)
-			a[i] = -a[i];
-		else if (k&1){
-			if (i==0 || a[i] > a[i-1]) 
-				a[i] = -a[i];
-			else 
-				a[i-1] = -a[i-1];
-			break;
-		}
-		else 
-			break;
+	scanf("%s",s);
+	for (int i=0;s[i];++i){
+		if (s[i] == '1')
+			dl[i+1]=dl[i]+1;
 	}
-	for (int i=0;i<n;++i)
-		ans+=a[i];
-	printf("%lld\n",ans);
+	for (int i=n-1;i>0;--i){
+		if (s[i-1] == '1')
+			dr[i-1]=dr[i] + 1;
+	}
+	int f=1;
+	for (int i=0;f && i<n;++i){
+		if (i+1 < a[i]){
+			if (i+1+dr[i]>=a[i])
+				continue;
+			else
+				f=0;
+		}
+		else if (i+1 > a[i]){
+			if (i+1-dl[i] <=a[i])
+				continue;
+			else
+				f=0;
+		}
+	}
+	if (f)
+		printf("YES\n");
+	else 
+		printf("NO\n");
 	return 0;
 }

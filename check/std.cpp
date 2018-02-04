@@ -1,5 +1,5 @@
 /*********************************
-Date: Sat Nov 18 09:33:43 CST 2017
+Date: Fri Feb  2 23:43:09 CST 2018
 Author: ycl
 *********************************/
 #include <iostream>
@@ -22,44 +22,45 @@ using namespace std;
 #define Cl(a,b) memset(a,b,sizeof(a))
 #define MP(a,b) make_pair(a,b)
 #define INF 0x7fffffff
-#define INFLL 0x7fffffffffffffff
 #define LL long long
 const int MOD = 1e9 + 7;
 const int maxn = 1e6 + 100;
-char str[][10]={
-	".-","-...","-.-.","-..",
-	".","..-.","--.","....",
-	"..",".---","-.-",".-..",
-	"--","-.","---",".--.",
-	"--.-",".-.","...","-",
-	"..-","...-",".--","-..-",
-	"-.--","--..","-----",".----",
-	"..---","...--","....-",".....",
-	"-....","--...","---..","----."
-};
-int getId(char ch)
-{
-	if (ch >='a' && ch <= 'z')
-		return ch-'a';
-	else if (ch >= 'A' && ch <= 'Z')
-		return ch-'A';
-	else 
-		return 26+ch-'0';
-}
+int a[maxn];
 char s[maxn];
+int dl[maxn],dr[maxn];
 int main()
 {
-	int T,n;
-	scanf("%d",&T);
-	while (T--){
-		scanf("%d",&n);
-		for (int i=0;i<n;++i){
-			scanf("%s",s);
-			for (int j=0;s[j];++j)
-				printf("%s ",str[getId(s[j])]);
-			printf("\n");
-		}
-		printf("\n");
+	int n;
+	scanf("%d",&n);
+	for (int i=0;i<n;++i)
+		scanf("%d",&a[i]);
+	scanf("%s",s);
+	for (int i=0;s[i];++i){
+		if (s[i] == '1')
+			dl[i+1]=dl[i]+1;
 	}
+	for (int i=n-1;i>0;--i){
+		if (s[i-1] == '1')
+			dr[i-1]=dr[i] + 1;
+	}
+	int f=1;
+	for (int i=0;f && i<n;++i){
+		if (i+1 < a[i]){
+			if (i+1+dr[i]>=a[i])
+				continue;
+			else
+				f=0;
+		}
+		else if (i+1 > a[i]){
+			if (i+1-dl[i] <=a[i])
+				continue;
+			else
+				f=0;
+		}
+	}
+	if (f)
+		printf("YES\n");
+	else 
+		printf("NO\n");
 	return 0;
 }
