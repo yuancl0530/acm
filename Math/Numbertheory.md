@@ -46,7 +46,7 @@ int exgcd(int a,int b,int &x,int &c)
 对于不定方程$ax+by=c,若gcd(a,b)|c,则该线性方程有解,否则无解.$  
 
 >证明:$$设ax_0+by_0=gcd(a,b)...(1)$$ $$ax+by=c...........(2)$$ $$(1)+(2)得:a(x_0+x)+b(y_0+y)=gcd(a,b)+c$$  
-由$于gcd(a-)|a$,  
+由$于gcd(a,b)|a$,  
 $gcd(a,b) |b$,  
 则$gcd(a,b)|(a(x_0+x)+b(y_0+y))$,  
 即$gcd(a,b)|(gcd(a,b)+c)$,所以$gcd(a,b)|c$  
@@ -56,7 +56,6 @@ $gcd(a,b) |b$,
 则$ax_0*(c/gcd(a,b))+by_o*(c/gcd(a,b))=c,$  
 所以\begin{cases}x=x_0*(c/gcd(a,b))\\y=y_0*(c/gcd(a,b)\end{cases}就是原线性方程的一组特解  
 通解：　
-
 \begin{cases}
 x = x+(b/gcd(a,b))*t\\
 y = y - (a/gcd(a,b))*t

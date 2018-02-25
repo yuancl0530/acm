@@ -1,4 +1,4 @@
-# 2018年寒假第一周周记
+# 寒假第一周
 
 ## Jan29  
 * 打Codeforces Round #459 (Div. 2)  
@@ -17,20 +17,24 @@ dp[l][r]表示区间[l,r]是否匹配
 **优化:**  
 ml[i]表示 最大j,使dp[i][j]==1  
 mr[i]表示 最小j,使dp[j][i]==1  
-对于上面第二周情况，$j \in [ mr[r]-1,ml[j]+1 ]$  
+对于上面第二种情况，$j \in [ mr[r]-1,ml[j]+1 ]$  
 > ### 代码:  
 [https://github.com/yuancl0530/acm/blob/master/contest/CF_Round459_Div2/c.cpp](https://github.com/yuancl0530/acm/blob/master/contest/CF_Round459_Div2/c.cpp)
 
 
 ## Jan31
-* 打Codeforces Round #459 (Div. 2)
+* 刷白书
+* 打Codeforces Round #460 (Div. 2)
 > solved 3 of 6
 
 ## Feb 1
+* 刷白书
 * 补CF Round #460 D题
 >### 解题思路  
->图中有环的话直接输出-1,  
+>有环的话直接输出-1,  
 否则输出某个字母出现的最大次数  
 **方法:拓扑排序+DP**
 >### 代码 
-[https://github.com/yuancl0530/acm/blob/master/contest/CF_Round460_Div2/d.cpp](https://github.com/yuancl0530/acm/blob/master/contest/CF_Round460_Div2/d.cpp)
+[https://github.com/yuancl0530/acm/blob/master/contest/CF_Round460_Div2/d.cpp](https://github.com/yuancl0530/acm/blob/master/contest/CF_Round460_Div2/d.cpp)  
+## Feb 2/3
+* 做近期没打的CF题目

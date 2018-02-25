@@ -24,8 +24,6 @@ const int maxn = 1e6 + 100;
 
 int main()
 {
-
-
-
+	
 	return 0;
 }

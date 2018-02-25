@@ -15,7 +15,8 @@ $gcd(a,b) = gcd(b,a\%b)$
 ```
 int gcd(int a,int b)
 {
-    if (b==0)return a;
+    if (b==0)
+        return a;
     return gcd(b,b%a);
 }
 ```
@@ -45,11 +46,12 @@ int exgcd(int a,int b,int &x,int &c)
 #### (1)求解不定方程 
 对于不定方程$ax+by=c,若gcd(a,b)|c,则该线性方程有解,否则无解.$  
 
->证明:$$设ax_0+by_0=gcd(a,b)...(1)$$ $$ax+by=c...........(2)$$ $$(1)+(2)得:a(x_0+x)+b(y_0+y)=gcd(a,b)+c$$  
-由$于gcd(a-)|a$,  
-$gcd(a,b) |b$,  
-则$gcd(a,b)|(a(x_0+x)+b(y_0+y))$,  
-即$gcd(a,b)|(gcd(a,b)+c)$,所以$gcd(a,b)|c$  
+>证明:$$设ax_0+by_0=gcd(a,b)...(1)$$ 
+$$ax+by=c...........(2)$$ $$(1)+(2)得:a(x_0+x)+b(y_0+y)=gcd(a,b)+c$$  
+由$于gcd(a-b)|a$,  
+$gcd(a,b)  |b$,  
+则$gcd(a,b) |(a(x_0+x)+b(y_0+y))$,  
+即$gcd(a,b) |(gcd(a,b)+c)$,所以$gcd(a,b)|c$  
 
 找整数解的方法:  
 >$设ax_0+by_0=gcd(a,b)$,  
@@ -63,10 +65,10 @@ y = y - (a/gcd(a,b))*t
 \end{cases}
 
 #### (2)求解线性同余方程　
-同余方程 $ax\equiv b(mod n)$对于未知数 x 有解，当且仅当 $gcd(a,n)|b$。且方程有解时，方程有 $gcd(a,n)$ 个解。 
+同余方程 $ax\equiv b /pmod n$对于未知数 x 有解，当且仅当 $gcd(a,n)|b$。且方程有解时，方程有 $gcd(a,n)$ 个解。 
 
 
-求解方程 $ax≡b (mod n)$ 相当于求解方程 $ax+ ny= b$, (x, y为整数)
+求解方程 $ax≡b \pmod n$ 相当于求解方程 $ax+ ny= b$, (x, y为整数)
 >证明：设$r=ax\%n=b\%n$,   
 $ax=pn+r$,  
 $b=qn+r$,  
@@ -74,7 +76,7 @@ $b=qn+r$,
 化简得$ax+(q-p)n=b$,  
 令$ｙ=p-q$,则$ax+ny=b$,也就转化成了求解不定方程． 
 #### (3)求解模逆元　
-$ax\equiv 1(mod n)$,如果$gcd(a,n)=1$,则方程在［0,n)只有唯一解．　
+$ax\equiv 1\pmod n$,如果$gcd(a,n)=1$,则方程在［0,n)只有唯一解．　
 >证明：根据以上推倒，设$x_0$是[0,n)内的一个解，$x=x_0+n/gcd(a,n)$,由于gcd(a,n)=1,所以$x_0$是唯一解　
 
 
