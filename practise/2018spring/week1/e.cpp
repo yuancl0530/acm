@@ -24,8 +24,8 @@ using namespace std;
 #define INF 0x7fffffff
 #define LL long long
 const int MOD = 1e9 + 7;
-const int maxn = 1e6 + 100;
-int a[maxn],b[maxn];
+const int maxn = 1e5 + 100;
+int a,b;
 LL s[maxn];
 LL sa=0;
 LL t[maxn];
@@ -48,18 +48,18 @@ int main()
 	int n,m,q;
 	scanf("%d%d%d",&n,&m,&q);
 	for (int i=1;i<=n;++i){
-		scanf("%d",&a[i]);
+		scanf("%d",&a);
 		if (i&1)
-			sa+=a[i];
+			sa+=a;
 		else
-			sa-=a[i];
+			sa-=a;
 	}
 	for (int i=1;i<=m;++i){
-		scanf("%d",&b[i]);
+		scanf("%d",&b);
 		if (i&1)
-			s[i] = s[i-1]+b[i];
+			s[i] = s[i-1]+b;
 		else
-			s[i] = s[i-1]-b[i];
+			s[i] = s[i-1]-b;
 	}
 	for (int i=1;i+n-1<=m;++i){
 		if (i&1)
