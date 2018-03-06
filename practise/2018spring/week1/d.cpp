@@ -122,27 +122,3 @@ int main()
 		printf("-1\n");
 	return 0;
 }
-	Cl(G,0x3f);
-	scanf("%d%d%d%d",&n,&m,&k,&q);
-	int x,y,t;
-	int l = -1;
-	int r = 0;
-	for (int i = 0;i<q;++i){
-		scanf("%d%d%d",&x,&y,&t);
-		G[x][y] = t;
-		r = max(r,t);
-	}
-	int mid;
-	while (l+1<r){
-		mid = (l+r)>>1;
-		if (check(mid))
-			r = mid;
-		else
-			l = mid;
-	}
-	if (check(r))
-		printf("%d\n",r);
-	else
-		printf("-1\n");
-	return 0;
-}
