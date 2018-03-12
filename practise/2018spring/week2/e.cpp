@@ -1,5 +1,5 @@
 /*********************************
-Date: Fri Mar  9 12:04:22 CST 2018
+Date: Mon Mar 12 12:25:58 CST 2018
 Author: ycl
 *********************************/
 #include <iostream>
@@ -25,32 +25,42 @@ using namespace std;
 #define LL long long
 const int MOD = 1e9 + 7;
 const int maxn = 1e6 + 100;
-LL dp[maxn];
-LL t[maxn];
+LL cat[maxn];
+LL inv[maxn];
+LL c[maxn];
 void init()
 {
-	t[0]=0;
-	for (int i=1;i<=1000000;++i){
-		if (i&1)
-			t[i] = t[i-1];
-		else
-			t[i] = (t[i-1]+i)%MOD;
+	inv[1] = 1;
+	for (int i=2;i<maxn;++i)
+		inv[i] = (MOD-MOD/i)*inv[MOD%i]%MOD;
+	cat[0] = 1;
+	for (int i=1;i<maxn;++i)
+		cat[i] = (4*i-2)*cat[i-1]%MOD*inv[i+1]%MOD;
+}
+
+int solve(int n)
+{
+	int k=0;
+	int ret=1;
+	c[0] = 1;
+	c[1] = n;
+	for (int i=2;i<=n;++i)
+		c[i] = c[i-1]*(n-i+1)%MOD*inv[i]%MOD;
+	for (int i=1;i<=n/2;++i){
+		k = n-2*i;
+		LL tmp = cat[i]*c[k]%MOD;
+		ret = (tmp+ret)%MOD;
 	}
-	dp[1] = 1;
-	dp[2] = 2;
-	for (int i=3;i<=1000000;++i){
-		dp[i] = (t[i-1]+1)*dp[i-1]%MOD;
-	}
+	return ret;
 }
 int main()
 {
 	init();
 	int T;
 	scanf("%d",&T);
+	int n;
 	while (T--){
-		int n;
 		scanf("%d",&n);
-		printf("%lld\n",dp[n]);
+		printf("%d\n",solve(n));
 	}
-	return 0;
 }
