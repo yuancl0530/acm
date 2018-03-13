@@ -24,7 +24,7 @@ using namespace std;
 #define INF 0x7fffffff
 #define LL long long
 const int MOD = 1e9 + 7;
-const int maxn = 1e6 + 100;
+const int maxn = 1e6 + 10;
 LL cat[maxn];
 LL inv[maxn];
 LL c[maxn];
