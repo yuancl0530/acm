@@ -31,18 +31,20 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	int a[maxn];
-	for (int i=0;i<maxn;++i) a[i] = i+1;
-	int n = mrand(100);
-	for (int i=0;i<n;++i)
-		swap(a[rand()%n],a[rand()%n]);
+	cout <<1<<endl;
+	int n = mrand(20);
+	int a[21];
 	cout<<n<<endl;
-	for (int i=0;i<n;++i)
-		cout<<a[i]<<" ";
-	cout<<endl;
-	for (int i=1;i<n;++i)
-		cout<<rand()%1;
-	cout<<endl;
+	for (int i=0;i<n;++i)a[i]=i+1;
+	for (int i=0;i<n;++i){
+		int t = mrand(n)-1;
+		while (a[t] == 0){
+			++t;
+			t%=n;
+		}
+		cout<<a[t]<<" ";
+		a[t]=0;
+	}
 	return 0;
 }
 
