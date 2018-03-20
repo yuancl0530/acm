@@ -29,7 +29,7 @@ int pos[maxn];
 int n;
 vector<int> V[maxn];
 stack<int> S;
-void init(int n)
+void init()
 {
 	CL(a);
 	CL(pos);
@@ -40,23 +40,23 @@ void init(int n)
 int main()
 {
 	int t;
-	while (scanf("%d",&n)!= EOF){
-		init(n);
+	while (scanf("%d",&n)!=EOF){
+		init();
 		for (int i=1;i<=n;++i){
 			scanf("%d",&t);
-			pos[t] = i+1;
+			pos[t] = i;
 		}
-		for (int i=0;i<n;++i)
+		for (int i=0;i<n;++i){
 			scanf("%d",&a[i]);
+		}
 		S.push(a[0]);
 		for (int i=1;i<n;++i){
-			while (pos[a[i]] < pos[S.top()]) S.pop();
-			int t = S.top();
-			if (V[t].size()==1 && pos[V[t][0]]+1 != pos[a[i]]) {
+			t = S.top();
+			while (t!=a[0] && pos[t]+1 >= pos[a[i]]) {
 				S.pop();
 				t = S.top();
 			}
-			V[S.top()].push_back(a[i]);
+			V[t].push_back(a[i]);
 			S.push(a[i]);
 		}
 		for (int i=1;i<=n;++i){
