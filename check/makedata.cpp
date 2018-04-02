@@ -31,20 +31,8 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	cout <<1<<endl;
-	int n = mrand(20);
-	int a[21];
-	cout<<n<<endl;
-	for (int i=0;i<n;++i)a[i]=i+1;
-	for (int i=0;i<n;++i){
-		int t = mrand(n)-1;
-		while (a[t] == 0){
-			++t;
-			t%=n;
-		}
-		cout<<a[t]<<" ";
-		a[t]=0;
-	}
+	getStr(10);
+	getStr(10);
 	return 0;
 }
 
@@ -67,6 +55,7 @@ void getStr(int n)
 		int t=mrand()%len;
 		cout<<str[t];
 	}
+	cout<<endl;
 }
 /*************************************************************************/
 LL GetTime()

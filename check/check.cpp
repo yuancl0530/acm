@@ -80,13 +80,17 @@ void check(int t)
 int run(string s)
 {
 	int ret = system(s.c_str());
+	if (ret){
+		cout<<s<<":Runtime error!"<<endl;
+		exit(-1);
+	}
 	return ret;
 }
 void encode(string name)
 {
 	int t = run("g++ "+name+".cpp -o "+name);
 	if (t){
-		cout<<"Error"<<endl;
+		cout<<name+".cpp: "<<"Complete error!"<<endl;
 		exit(-1);
 	}
 }
