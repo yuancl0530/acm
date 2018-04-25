@@ -22,7 +22,7 @@ const int maxn = 1e6 + 100;
 void creatseed();
 LL GetTime();
 /*****************************************************************************/
-const LL maxdata = 1e4;//默认随机数最大值
+const LL maxdata = 1e5;//默认随机数最大值
 //char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
 char str[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 LL mrand(LL mod = maxdata);//获取一个随机数[1,n]
@@ -31,8 +31,7 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	getStr(10);
-	getStr(10);
+	cout<<mrand()<<" "<<mrand()<<endl;
 	return 0;
 }
 

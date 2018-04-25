@@ -17,7 +17,8 @@ using namespace std;
 #define Cl(a,b) memset(a,b,sizeof(a))
 #define MP(a,b) make_pair(a,b)
 #define INF 0x7fffffff
-#define LL long long
+#define ll long long
+#define ull unsigned long long
 const int mod = 1e9 + 7;
 const int maxn = 1e6 + 100;
 

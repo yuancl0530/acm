@@ -1,81 +1,71 @@
+//高精度乘法 
 #include <iostream>
 #include <cstdio>
-#include <cstdlib>
 #include <cmath>
-#include <climits>
 #include <cstring>
-#include <string>
-#include <vector>
-#include <list>
-#include <queue>
-#include <stack>
-#include <map>
-#include <set>
-#include <bitset>
 #include <algorithm>
-#include <functional>
-#include <iomanip>
 using namespace std;
-
-#define LL long long
-const int maxn = 100000 + 100;
-char str1[maxn], str2[maxn];
-int Next[maxn];
-
-void get_next(char *str) {
-    int j = 0;
-    Next[1] = j;
-    for(int i = 2; str[i]; ++i) {
-        while(j != 0 && str[j + 1] != str[i]) {
-            j = Next[j];
-        }
-        if(str[j + 1] == str[i]) {
-            ++j;
-        }
-        Next[i] = j;
-    }
+#define CL(a) memset(a,0,sizeof(a))
+const int maxn = 300+10;
+char a[maxn],b[maxn];
+int c[maxn],d[maxn];
+int x[maxn],y[maxn];
+void addnum(int* a,int* b){
+	for(int i=0;i<maxn;i++)
+	{
+		a[i]+=b[i];	
+	} 
+} 
+int jinwei(int *a){
+	int i;
+	int maxx;
+	for(i=305;i>0;i--){
+		if(a[i]){
+			maxx = i;  break;
+		}
+	}
+	for(int i=0;;i++){
+		if(i>maxx&&a[i]==0){
+			return i-1;
+		}
+		if(a[i]>=10){
+			a[i+1] += a[i]/10;
+			a[i] %= 10;
+		} 
+		
+	} 
+	return maxx;
 }
-
-int kmp(char *str1, char *str2) {
-    int j = 0;
-    for(int i = 1; str1[i]; ++i) {
-        while(j != 0 && str2[j + 1] != str1[i]) {
-            j = Next[j];
-        }
-        if(str1[i] == str2[j + 1]) {
-            ++j;
-        }
-        if(str2[j + 1] == '\0' && str1[i + 1] != '\0') {
-            j = Next[j];
-        }
-    }
-    return j + 1;
+void out(int *a,int maxsub)
+{
+	for(int i=maxsub;i>=0;i--)
+		printf("%d",a[i]);
+	printf("\n");
 }
-
-int main() {
-    #ifdef LOCAL
-    freopen("test.txt", "r", stdin);
-//    freopen("test1.out", "w", stdout);
-    #endif // LOCAL
-    ios::sync_with_stdio(false);
-
-    while(scanf("%s%s", str1 + 1, str2 + 1) != EOF) {
-        get_next(str2);
-        int j2 = kmp(str1, str2);
-        get_next(str1);
-        int j1 = kmp(str2, str1);
-        if(j1 > j2) {
-            printf("%s%s\n", str2 + 1, str1 + j1);
-        } else if(j2 > j1) {
-            printf("%s%s\n", str1 + 1, str2 + j2);
-        } else {
-            if(strcmp(str1 + 1, str2 + 1) < 0) {
-                printf("%s%s\n", str1 + 1, str2 + j2);
-            } else {
-                printf("%s%s\n", str2 + 1, str1 + j1);
-            }
-        }
+int main()
+{
+	while(scanf("%s",a)!=EOF){
+		scanf("%s",b);
+		int i,j,l;
+		int la = strlen(a);
+		int lb = strlen(b);
+		CL(x);
+		CL(y);
+		for(i=0;i<la;i++)           //把字符串转化为整型数组 
+			x[la-i-1] = a[i] - '0';
+		for(i=0;i<lb;i++)
+			y[lb-i-1] = b[i] - '0';
+		memset(c,0,sizeof(c));
+		for(int i=0;i<lb;i++){      //模拟竖式 
+			memset(d,0,sizeof(d));
+			for(int j=0;j<la;j++)
+			{
+				d[j+i] = x[j] * y[i]; 
+			}
+			addnum(c,d);
+		}
+		int maxsub = jinwei(c);   //统一进位，并返回最高位下标 
+		out(c,maxsub);
     }
-
-    return 0;
-}
+	return 0;	
+} 
