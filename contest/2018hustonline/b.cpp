@@ -1,3 +1,7 @@
+/*********************************
+Date: Sun Apr 29 09:16:36 CST 2018
+Author: ycl
+*********************************/
 #include <iostream>
 #include <cstdio>
 #include <string>
@@ -18,6 +22,7 @@ using namespace std;
 #define MP(a,b) make_pair(a,b)
 #define INF 0x7fffffff
 #define ll long long
+#define ull unsigned long long
 const int mod = 1e9 + 7;
 const int maxn = 1e6 + 100;
 
