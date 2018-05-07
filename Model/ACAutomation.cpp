@@ -1,5 +1,6 @@
 /*********************************
-Date: Sat Aug 26 10:26:02 CST 2017
+Date: Mon May  7 14:03:51 CST 2018
+Author: ycl
 *********************************/
 #include <iostream>
 #include <cstdio>
@@ -13,7 +14,6 @@ Date: Sat Aug 26 10:26:02 CST 2017
 #include <stack>
 #include <map>
 #include <vector>
-#include <list>
 #include <set>
 #include <sstream>
 using namespace std;
@@ -21,116 +21,101 @@ using namespace std;
 #define Cl(a,b) memset(a,b,sizeof(a))
 #define MP(a,b) make_pair(a,b)
 #define INF 0x7fffffff
-#define LL long long
-const int MOD = 1e9 + 7;
+#define ll long long
+const int mod = 1e9 + 7;
 const int maxn = 1e6 + 100;
-const int maxm = 55;
-char word[maxm];
-char str[maxn];
+#define N 26
 struct Node
 {
-	Node *child[26];
+	int count;
+	Node *next[N];
 	Node *fail;
-	int cnt;
-	Node()
+	void init(int c=0,Node *f=NULL)
 	{
-		fail=NULL;
-		for (int i=0;i<26;i++)
-			child[i]=NULL;
-		cnt=0;
+		CL(next);
+		fail = f;
+		count = c;
 	}
-};
-Node *root=NULL;
-queue<Node *>Q;
-void insert(char *s)
+}node[maxn];
+int cnt;
+char s[maxn];
+
+inline void insert(Node *p,char *s)
 {
-	Node *p=root;
-	while (*s){
-		int id=*s-'a';
-		if (p->child[id]==NULL){
-			p->child[id]=new Node();
+	for (int i=0;s[i];++i){
+		int id = s[i]-'a';
+		if (!p->next[id]){
+			p->next[id] = &node[cnt++];
+			p->next[id]->init();
 		}
-		p=p->child[id];
-		++s;
+		p = p->next[id];
 	}
-	p->cnt++;
+	++p->count;
 }
-void buildFailePoint()
+inline void buildAC(Node *root)
 {
-	while (!Q.empty()) Q.pop();
-	Q.push(root);
+	queue<Node *> Q;
+	Node *p=root;
+	p->fail = NULL;
+	Q.push(p);
+	Node *t;
 	while (!Q.empty()){
-		Node *now=Q.front();
+		p = Q.front(); 
 		Q.pop();
-		for (int i=0;i<26;i++){
-			if (now->child[i]){
-				if (now==root)
-					now->child[i]->fail=root;
-				else{
-					Node *p=now->fail;
-					while (p){
-						if (p->child[i]){
-							now->child[i]->fail=p->child[i];
-							break;
-						}
-						p=p->fail;
+		for (int i=0;i<N;++i){
+			if (!p->next[i]) continue;
+			Q.push(p->next[i]);
+			if (p == root) p->next[i]->fail = root;
+			else {
+				t = p->fail;
+				while (t){
+					if (t->next[i]){
+						p->next[i]->fail = t->next[i];
+						break;
 					}
-					if (!p) now->child[i]->fail=root;
+					t = t->fail;
 				}
-				Q.push(now->child[i]);
+				if (!t) p->next[i]->fail = root;
 			}
 		}
 	}
 }
-int query(char *s)
+inline int query(Node *root,char *s)
 {
-	int ret = 0;
-	int len=strlen(s);
-	Node *now=root;
-	for (int i=0;i<len;i++){
-		int id=s[i]-'a';
-		while (now->child[id]==NULL && now!=root) now=now->fail;
-		now=now->child[id];
-		now=(now==NULL)? root:now;
-		Node *temp=now;
-		while (temp != root && temp->cnt!=-1){
-			ret+=temp->cnt;
-			temp->cnt=-1;
-			temp=temp->fail;
+	Node *p = root;
+	Node *t;
+	int ans = 0;
+	for (int i=0;s[i];++i){
+		int id = s[i]-'a';
+		while (p!=root && p->next[id]==NULL){
+			p = p->fail;
+		}
+		p = p->next[id];
+		if (!p) p = root;
+		t = p;
+		while (t!=root && t->count!=-1){
+			ans += t->count;
+			t->count = -1;
+			t=t->fail;
 		}
 	}
-	return ret;
-}
-void clear(Node *root)
-{
-	if (!root) return ;
-	for (int i=0;i<26;i++){
-		if(root->child[i])
-			clear(root->child[i]);
-	}
-	delete root;
-}
-void init()
-{
-	clear(root);
-	root = new Node();
+	return ans;
 }
 int main()
 {
-	int T;
+	int T,n;
 	scanf("%d",&T);
 	while (T--){
-		int n;
-		init();
 		scanf("%d",&n);
-		while (n--){
-			scanf("%s",word);
-			insert(word);
+		Node * root = &node[cnt++];
+		root->init();
+		for (int i=0;i<n;++i){
+			scanf("%s",s);
+			insert(root,s);
 		}
-		scanf("%s",str);
-		buildFailePoint();
-		int ans=query(str);
-		printf("%d\n",ans);
+		buildAC(root);
+		scanf("%s",s);
+		printf("%d\n",query(root,s));
 	}
 	return 0;
 }

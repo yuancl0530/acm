@@ -1,5 +1,6 @@
 /*********************************
-Date: Wed Sep  6 13:26:23 CST 2017
+Date: Mon May  7 14:03:51 CST 2018
+Author: ycl
 *********************************/
 #include <iostream>
 #include <cstdio>
@@ -13,7 +14,6 @@ Date: Wed Sep  6 13:26:23 CST 2017
 #include <stack>
 #include <map>
 #include <vector>
-#include <list>
 #include <set>
 #include <sstream>
 using namespace std;
@@ -21,83 +21,81 @@ using namespace std;
 #define Cl(a,b) memset(a,b,sizeof(a))
 #define MP(a,b) make_pair(a,b)
 #define INF 0x7fffffff
-#define LL long long
-const int MOD = 1e9 + 7;
+#define ll long long
+const int mod = 1e9 + 7;
 const int maxn = 1e6 + 100;
-const int N=26;
-struct Node 
+#define N 26
+struct Node
 {
+	int count;
 	Node *next[N];
 	Node *fail;
-	int count;
-	Node()
+	void init(int c=0,Node *f=NULL)
 	{
 		CL(next);
-		fail=NULL;
-		count =0;
+		fail = f;
+		count = c;
 	}
-}*q[maxn];
+}node[maxn];
+int cnt;
 char s[maxn];
-void insert(char *s,Node *root)
+
+inline void insert(Node *p,char *s)
 {
-	Node *p=root;
 	for (int i=0;s[i];++i){
-		int id=s[i]-'a';
-		if (p->next[id]==NULL){
-			p->next[id]=new Node();
+		int id = s[i]-'a';
+		if (!p->next[id]){
+			p->next[id] = &node[cnt++];
+			p->next[id]->init();
 		}
-		p=p->next[id];
+		p = p->next[id];
 	}
-	p->count++;
+	++p->count;
 }
-void build(Node *root)
+inline void buildAC(Node *root)
 {
-	int head=0;
-	int tail=0;
-	root->fail=NULL;
-	q[tail++]=root;
-	Node *p,*t;
-	while (head<tail){
-		p=q[head++];
-		for (int i=0;i<N;++i){
-			if (p->next[i]){
-				q[tail++]=p->next[i];
-				if (p==root)
-					p->next[i]->fail=root;
-				else{
-					t=p->fail;
-					while (t){
-						if (t->next[i]){
-							p->next[i]->fail=t->next[i];
-							break;
-						}
-						t=t->fail;
-					}
-					if (!t)
-						p->next[i]->fail=root;
-				}
-			
-			}
-			
-		}
-	
-	}
-}
-int query(char *s,Node *root)
-{
+	queue<Node *> Q;
 	Node *p=root;
+	p->fail = NULL;
+	Q.push(p);
 	Node *t;
-	int ans=0;
+	while (!Q.empty()){
+		p = Q.front(); 
+		Q.pop();
+		for (int i=0;i<N;++i){
+			if (!p->next[i]) continue;
+			Q.push(p->next[i]);
+			if (p == root) p->next[i]->fail = root;
+			else {
+				t = p->fail;
+				while (t){
+					if (t->next[i]){
+						p->next[i]->fail = t->next[i];
+						break;
+					}
+					t = t->fail;
+				}
+				if (!t) p->next[i]->fail = root;
+			}
+		}
+	}
+}
+inline int query(Node *root,char *s)
+{
+	Node *p = root;
+	Node *t;
+	int ans = 0;
 	for (int i=0;s[i];++i){
-		int id=s[i]-'a';
-		while (p!=root && p->next[id]==NULL)
-			p=p->fail;
-		p=p->next[id];
-		if (!p)p=root;
-		t=p;
+		int id = s[i]-'a';
+		while (p!=root && p->next[id]==NULL){
+			p = p->fail;
+		}
+		p = p->next[id];
+		if (!p) p = root;
+		t = p;
 		while (t!=root && t->count!=-1){
-			ans+=t->count;
-			t->count=-1;
+			ans += t->count;
+			t->count = -1;
 			t=t->fail;
 		}
 	}
@@ -105,22 +103,19 @@ int query(char *s,Node *root)
 }
 int main()
 {
-	int T;
+	int T,n;
 	scanf("%d",&T);
 	while (T--){
-		int n;
-		Node *root=new Node();
 		scanf("%d",&n);
-		while (n--){
+		Node * root = &node[cnt++];
+		root->init();
+		for (int i=0;i<n;++i){
 			scanf("%s",s);
-			insert(s,root);
+			insert(root,s);
 		}
-		build(root);
+		buildAC(root);
 		scanf("%s",s);
-		int ans=query(s,root);
-		printf("%d\n",ans);
+		printf("%d\n",query(root,s));
 	}
-
-
 	return 0;
 }
