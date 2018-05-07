@@ -35,22 +35,8 @@ string makedata = "makedata";
 int main(int argc,char *argv[])
 {
 	build();
-	if (argc==1)
-		check();
-	else if (argc==2 && !strcmp(argv[1],"-a"))
-		check0();
-	else
-		cout<<"./check or ./check -a"<<endl;
+	check();
 	return 0;
-}
-void check0()
-{
-	run("./"+testname+" <input >output1");
-	run("./"+stdname+" <input >output2");
-	if (run("diff output1 output2"))
-		cout<<"Wrong Answer"<<endl;
-	else
-		cout<<"Accepted"<<endl;
 }
 void check(int t)
 {
@@ -80,10 +66,6 @@ void check(int t)
 int run(string s)
 {
 	int ret = system(s.c_str());
-	if (ret){
-		cout<<s<<":Runtime error!"<<endl;
-		exit(-1);
-	}
 	return ret;
 }
 void encode(string name)
@@ -119,3 +101,12 @@ void build()
 	run("touch WrongData");
 	run("rm WrongData");
 }
+/*void check0()
+{
+	run("./"+testname+" <input >output1");
+	run("./"+stdname+" <input >output2");
+	if (run("diff output1 output2"))
+		cout<<"Wrong Answer"<<endl;
+	else
+		cout<<"Accepted"<<endl;
+}*/

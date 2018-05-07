@@ -25,20 +25,14 @@ using namespace std;
 #define ull unsigned long long
 const int mod = 1e9 + 7;
 const int maxn = 1e5 + 100;
-struct Node
-{
-	int from;
-	int to;
-	Node (int from=0,int to=0):from(from),to(to) {}
-};
 
-vector<Node>G[maxn];
+vector<int>G[maxn];
 int grand[maxn][17],depth[maxn];
 int Log[maxn];
 int a[maxn],b[maxn],tmp[maxn];
 int n,u,v;
 
-void init(int n)
+inline void init(int n)
 {
 	for (int i=1;i<=n;++i){
 		G[i].clear();
@@ -56,11 +50,11 @@ void dfs(int from=0,int u=1)
 		grand[u][i] = grand[grand[u][i-1]][i-1];
 	}
 	for (int i=0;i<G[u].size();++i){
-		dfs(u,G[u][i].to);
+		dfs(u,G[u][i]);
 	}
 }
 
-int lca(int a,int b)
+inline int lca(int a,int b)
 {
 	if (depth[a]<depth[b]){
 		swap(a,b);
@@ -75,7 +69,7 @@ int lca(int a,int b)
 
 	if (a==b) return a;
 
-	for (int i=Log[n]+1;i>=0;--i){
+	for (int i=Log[n];i>=0;--i){
 		if (grand[a][i]!=grand[b][i]){
 			a = grand[a][i];
 			b = grand[b][i];
@@ -84,16 +78,12 @@ int lca(int a,int b)
 	return grand[a][0];
 }
 
-bool check(int d)
+inline bool check(int d)
 {
 	int cnt = 0;
 	for (int i=0;i<u;++i){
 		int k = a[i];
 		if (depth[k]<d) continue;
-		if (depth[k]==d){
-			tmp[cnt++] = k;
-			continue;
-		}
 		int t = depth[k]-d;
 		for (int j=0;t;t>>=1,++j){
 			if (t&1){
@@ -124,8 +114,8 @@ int main()
 		init(n);
 		for (int i=1;i<n;++i){
 			scanf("%d%d",&u,&v);
-			G[u].push_back(Node(u,v));
-			G[v].push_back(Node(v,u));
+			G[u].push_back(v);
+			G[v].push_back(u);
 		}
 		dfs();
 		while (m--){
@@ -137,7 +127,6 @@ int main()
 			for (int i=0;i<v;++i){
 				scanf("%d",&b[i]);
 			}
-			int ans = 0;
 			int l=1;
 			int r=n+1;
 			while (l+1<r) {
@@ -152,6 +141,5 @@ int main()
 			printf("%d\n",l);
 		}
 	}
-
 	return 0;
-
+}
