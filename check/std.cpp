@@ -23,7 +23,7 @@ using namespace std;
 #define INF 0x7fffffff
 #define ll long long
 const int mod = 1e9 + 7;
-const int maxn = 1e6 + 100;
+const int maxn = 1e5 + 100;
 struct Node
 {
 	int left,right,pos,lazy,v;

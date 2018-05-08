@@ -1,5 +1,9 @@
-*.c
 in
 out
-tmp/
 a
+tmp/
+check/std.cpp
+check/test.cpp
+check/input
+check/output*
+
