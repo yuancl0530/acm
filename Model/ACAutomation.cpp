@@ -1,21 +1,4 @@
-/*********************************
-Date: Mon May  7 14:03:51 CST 2018
-Author: ycl
-*********************************/
-#include <iostream>
-#include <cstdio>
-#include <string>
-#include <cstring>
-#include <cmath>
-#include <cctype>
-#include <cstdlib>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <map>
-#include <vector>
-#include <set>
-#include <sstream>
+#include <bits/stdc++.h>
 using namespace std;
 #define CL(a) memset(a,0,sizeof(a))
 #define Cl(a,b) memset(a,b,sizeof(a))
@@ -28,8 +11,7 @@ const int maxn = 1e6 + 100;
 struct Node
 {
 	int count;
-	Node *next[N];
-	Node *fail;
+	Node *fail,*next[N];
 	void init(int c=0,Node *f=NULL)
 	{
 		CL(next);
@@ -54,8 +36,8 @@ inline void insert(Node *p,char *s)
 }
 inline void buildAC(Node *root)
 {
-	queue<Node *> Q;
-	Node *p=root;
+	queue<Node*> Q;
+	Node *p = root;
 	p->fail = NULL;
 	Q.push(p);
 	Node *t;
@@ -87,9 +69,8 @@ inline int query(Node *root,char *s)
 	int ans = 0;
 	for (int i=0;s[i];++i){
 		int id = s[i]-'a';
-		while (p!=root && p->next[id]==NULL){
+		while (p!=root && p->next[id]==NULL)
 			p = p->fail;
-		}
 		p = p->next[id];
 		if (!p) p = root;
 		t = p;

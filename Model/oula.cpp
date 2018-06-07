@@ -1,18 +1,4 @@
-#include <iostream>
-#include <cstdio>
-#include <string>
-#include <cstring>
-#include <cmath>
-#include <cctype>
-#include <cstdlib>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <map>
-#include <vector>
-#include <list>
-#include <set>
-#include <sstream>
+#include <bit/stdc++.h>
 using namespace std;
 #define CL(a) memset(a,0,sizeof(a))
 #define Cl(a,b) memset(a,b,sizeof(a))
@@ -23,15 +9,10 @@ const int maxn = 1e7 + 100;
 int fp[maxn],pr[maxn],mu[maxn],phi[maxn],mus[maxn];
 /*
 对[1,n]的数进行欧拉筛。
-
 fp[i]记录i的最小质因数。(可用于质因数分解，也可判断i是否为质数)
-
 pr[i]是质数数组，其中pr[0]为质数个数。
-
 mu[i]为i的莫比乌斯函数，mus[i]为其前缀和。(莫比乌斯函数可以用来容斥和反演)
-
 phi[i]为i的欧拉函数。
-
 */
 void oula_prime(int n)
 {
@@ -60,8 +41,5 @@ void oula_prime(int n)
 
 int main()
 {
-
-
-
 	return 0;
 }

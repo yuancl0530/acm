@@ -31,25 +31,21 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	int n = mrand(1e5);
-	int m = mrand(1e4);
-	cout<<n<<" "<<m<<endl;
-	randLine(n);
-	for (int i=0;i<m;++i){
-		int op = rand()%2;
-		if (op){
-			int x = mrand(n);
-			int y = mrand(n);
-			if (x>y) swap(x,y);
-			cout<<1<<" "<<x<<" "<<y<<endl;
-		}
-		else{
-			int x = mrand(n);
-			int y = mrand(n);
-			if (x>y) swap(x,y);
-			int v = mrand(100);
-			cout<<0<<" "<<x<<" "<<y<<" "<<v<<endl;
-		}
+	int n = mrand(1000);
+	int m = mrand(10);
+	int t = 0;
+	cout<<n<<endl;
+	for (int i = 1;i <= n;++i){
+		int tt = mrand(20);
+		cout<<t+tt<<" "<<mrand(20)<<endl;
+		t += tt;
+	}
+	cout<<m<<endl;
+	while (m--){
+		int l = mrand(n);
+		int r = mrand(n);
+		if (l > r) swap(l,r);
+		printf("%d %d\n",l,r);
 	}
 	return 0;
 }

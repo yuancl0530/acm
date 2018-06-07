@@ -1,17 +1,4 @@
-#include <iostream>
-#include <cstdio>
-#include <string>
-#include <cstring>
-#include <cmath>
-#include <cctype>
-#include <cstdlib>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <map>
-#include <vector>
-#include <list>
-#include <set>
+#include <bits/stdc++.h
 using namespace std;
 #define CL(a) memset(a,0,sizeof(a))
 #define Cl(a,b) memset(a,b,sizeof(a))
@@ -21,11 +8,7 @@ const int MOD = 1e9 + 7;
 const int maxn = 1e6 + 100;
 int num_left;
 int num_right;
-struct Edge
-{
-	int from;
-	int to;
-};
+struct Edge{ int from,to; };
 vector<int>G[maxn];
 int matching[maxn];
 int check[maxn];
@@ -51,18 +34,13 @@ int hungarian()
 	for (int i = 0;i < num_left;i++){
 		if (matching[i] == -1){
 			CL(check);
-			if (dfs(i)){
+			if (dfs(i))
 				ans++;
-			}
 		}
-	
 	}
 	return ans;
 }
 int main()
 {
-
-
-
 	return 0;
 }

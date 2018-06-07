@@ -1,21 +1,4 @@
-/*********************************
-Date: Fri Aug 25 20:40:39 CST 2017
-*********************************/
-#include <iostream>
-#include <cstdio>
-#include <string>
-#include <cstring>
-#include <cmath>
-#include <cctype>
-#include <cstdlib>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <map>
-#include <vector>
-#include <list>
-#include <set>
-#include <sstream>
+#include <bits/stdc++.h>
 using namespace std;
 #define CL(a) memset(a,0,sizeof(a))
 #define Cl(a,b) memset(a,b,sizeof(a))
@@ -45,7 +28,6 @@ LL query(int x,int y)
 	}
 	return ret;
 }
-int op;
 int main()
 {
 	return 0;

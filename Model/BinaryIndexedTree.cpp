@@ -1,21 +1,4 @@
-/*********************************
-Date: Fri Aug 25 19:08:26 CST 2017
-*********************************/
-#include <iostream>
-#include <cstdio>
-#include <string>
-#include <cstring>
-#include <cmath>
-#include <cctype>
-#include <cstdlib>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <map>
-#include <vector>
-#include <list>
-#include <set>
-#include <sstream>
+#include <bits/stdc++.h>
 using namespace std;
 #define CL(a) memset(a,0,sizeof(a))
 #define Cl(a,b) memset(a,b,sizeof(a))
@@ -30,24 +13,19 @@ int lowbit(int x)
 {
 	return x&(-x);
 }
-int query(int n)
+int query(int pos)
 {
 	int sum=0;
-	while (n>0){
-		sum+=s[n];
-		n-=lowbit(n);
-	}
+	for (;n>0;pos-=lowbit(pos))
+		sum+=s[pos];
 	return sum;
 }
-void update(int i,int value)
+void update(int pos,int value)
 {
-	while (i<=n){
-		s[i]+=value;
-		i+=lowbit(i);
-	}
+	for (;pos<=n;pos+=lowbit(pos))
+		s[pos]+=value;
 }
 int main()
 {
-	
 	return 0;
 }

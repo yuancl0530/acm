@@ -12,12 +12,12 @@ using namespace std;
 #define TLE 9
 #define MLE 11
 
-int Case = 100;
+int Case = 1000;
 string testname = "test";
 string stdname = "std";
 string makedata = "makedata";
 string judge = "judge";
-const char * memory = "32";
+const char * memory = "128";
 const char * stack = "8";
 const char * ltime = "1";
 
@@ -44,7 +44,13 @@ void check(int t)
 		run("./"+makedata+" >input");
 		t1=run("./"+testname,"output1",t_test);
 		t2=run("./"+stdname, "output2",t_std);
-		if (t1 || t2) printf("on test %d\n",i);
+		if (t1 || t2) {
+			printf("on test %d\n",i);
+			cout<<"Continue?(y/n?): ";
+			char c;cin>>c;
+			if (c == 'y') continue;
+			else break;
+		}
 		else if (run("diff output1 output2")){
 			wrong++;
 			saveWrong();
@@ -56,7 +62,7 @@ void check(int t)
 		}
 		else {
 			printf("Accepted test %d",i);
-			printf("(std:%.2lfms test:%.2lfms)\n",t_std,t_test);
+			printf("(std:%.0lfms test:%.0lfms)\n",t_std,t_test);
 		}
 	}
 	if (!wrong) printf("All accepted\n");
