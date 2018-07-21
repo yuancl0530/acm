@@ -5,7 +5,7 @@ using namespace std;
 #define MP(a,b) make_pair(a,b)
 #define ll long long
 const int mod = 1e9 + 7;
-const int maxn = 1e5 + 100;
+const int maxn = 1e6 + 100;
 
 int main()
 {

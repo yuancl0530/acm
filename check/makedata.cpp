@@ -31,22 +31,7 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	int n = mrand(1000);
-	int m = mrand(10);
-	int t = 0;
-	cout<<n<<endl;
-	for (int i = 1;i <= n;++i){
-		int tt = mrand(20);
-		cout<<t+tt<<" "<<mrand(20)<<endl;
-		t += tt;
-	}
-	cout<<m<<endl;
-	while (m--){
-		int l = mrand(n);
-		int r = mrand(n);
-		if (l > r) swap(l,r);
-		printf("%d %d\n",l,r);
-	}
+	cout<<mrand(100000)<<" "<<mrand(100000)<<endl;
 	return 0;
 }
 

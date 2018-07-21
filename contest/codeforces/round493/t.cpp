@@ -1,0 +1,43 @@
+/*********************************
+Date: Sun Jul  1 22:37:13 CST 2018
+Author: ycl
+*********************************/
+#include <bits/stdc++.h>
+using namespace std;
+#define CL(a) memset(a,0,sizeof(a))
+#define Cl(a,b) memset(a,(b),sizeof(a))
+#define MP(a,b) make_pair(a,b)
+#define ll long long
+const int mod = 1e9 + 7;
+const int maxn = 1e6 + 100;
+char s[maxn];
+int a[maxn];
+int main()
+{
+	int n;
+	ll x,y;
+	scanf("%d%lld%lld",&n,&x,&y);
+	scanf("%s",s);
+	int cnt = 0;
+	int num0 = 0;
+	int num1 = 0;
+	for (int i = 0;i < n;){
+		int t = s[i] - '0';
+		if (!t) ++num0;
+		else ++num1;
+		a[cnt++] = t;
+		++i;
+		while (i < n && s[i]-'0' == t) ++i;
+	}
+	/*for (int i = 0;i < cnt;++i)
+		cout<<a[i];
+	cout<<endl;*/
+	ll ans = num0*y;
+	if (num1 == 0)
+		ans = min(ans,y);
+	else {
+		ans = min(ans, min(num0*x+y, num1*x+y));
+	}
+	printf("%lld\n",ans);
+	return 0;
+}
