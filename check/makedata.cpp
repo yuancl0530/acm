@@ -31,7 +31,10 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	cout<<mrand(100000)<<" "<<mrand(100000)<<endl;
+	int n = 1e5;
+	cout<<n<<endl;
+	for (int i = 1;i <= n;++i)
+		cout<<i<<endl;
 	return 0;
 }
 

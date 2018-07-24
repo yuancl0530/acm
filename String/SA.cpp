@@ -1,59 +1,64 @@
 /*********************************
-Date: Thu Oct 26 20:04:30 CST 2017
+Date: Mon Jul 23 09:00:49 CST 2018
 Author: ycl
 *********************************/
-#include <iostream>
-#include <cstdio>
-#include <string>
-#include <cstring>
-#include <cmath>
-#include <cctype>
-#include <cstdlib>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <map>
-#include <vector>
-#include <list>
-#include <set>
-#include <sstream>
+#include <bits/stdc++.h>
 using namespace std;
 #define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,b,sizeof(a))
+#define Cl(a,b) memset(a,(b),sizeof(a))
 #define MP(a,b) make_pair(a,b)
-#define INF 0x7fffffff
-#define INFLL 0x7fffffffffffffff
-#define LL long long
-const int MOD = 1e9 + 7;
+#define ll long long
+const int mod = 1e9 + 7;
 const int maxn = 1e6 + 100;
+const int maxm = 1e2 + 100;
+int wa[maxn],wb[maxn],wu[maxn],wv[maxn],sa[maxn];
 char s[maxn];
-int wa[maxn],wb[maxn],wv[maxn],ws[maxn];
-int sa[maxn];
-void Suffix(char *s)
+bool cmp(int *y,int a,int b,int j)
 {
-	int *x=wa,*y=wb;
-	int n=strlen(s);
-	int m=127;
-	for (int i=0;i<n;++i) x[i]=s[i]-'0'+1;
-	CL(ws);
-	for (int i=0;i<n;++i) ++ws[x[i]];
-	for (int i=1;i<m;++i) ws[i]+=ws[i-1];
-	for (int i=n-1;i>=0;--i) sa[--ws[x[i]]]=i;
-	for (int j=1,p=0;p<n;j<<=1,m=p){
-		for (int i=n-j,i<n;++i) y[p++]=i;
-		for (int i=0;i<n;++i) if (sa[i]>=j) y[p++]=sa[i]-j;
-		for (int i=0;i<n;++i) wv[i]=x[y[i]];
-		CL(ws);
-		for (int i=0;i<n;++i) ++ws[wv[i]];
-		for (int i=1;i<m;++i) ws[i]+=ws[i-1];
-		for (int i=n-1;i>=0;--i) sa[--ws[wv[i]]]=y[i];
-
+	return y[a] == y[b] && y[a+j] == y[b+j];
+}
+void Suffix(char *s,int *sa,int n,int m)
+{
+	int *x = wa, *y = wb,i,j,k,p;
+	for (i = 0;i < m;++i) wu[i] = 0;
+	for (i = 0;i < n;++i) ++wu[x[i]=s[i]];
+	for (i = 1;i < m;++i) wu[i] += wu[i-1];
+	for (i = n-1;i >= 0;--i) sa[--wu[x[i]]] = i;
+	for (p = 1,j = 1;p < n;j <<= 1,m = p) {
+		for (p=0,i=n-j;i < n;++i) y[p++] = i;
+		for (i = 0;i < n;++i) if (sa[i] >= j) y[p++] = sa[i] - j;
+		for (i = 0;i < m;++i) wu[i] = 0;
+		for (i = 0;i < n;++i) wv[i] = x[y[i]];
+		for (i = 0;i < n;++i) ++wu[wv[i]];
+		for (i = 1;i < m;++i) wu[i] += wu[i-1];
+		for (i = n-1;i >= 0;--i) sa[--wu[wv[i]]] = y[i];
+		swap(x,y);
+		for (x[sa[0]]=0,p=1,i=1;i < n;++i)
+			x[sa[i]] = cmp(y,sa[i-1],sa[i],j)? p-1:p++;
 	}
+}
+/**************************************/
+int height[maxn],Rank[maxn];
+void calheight(char *s,int *sa,int n)
+{
+	int j,k;
+	for (int i = 1;i <= n;++i) Rank[sa[i]] = i;
+	for (int i = 0,k=0;i < n;height[Rank[i++]]=k)
+		for (k? k--:0,j=sa[Rank[i]-1];s[i+k] == s[j+k];++k);
 }
 int main()
 {
-
-
-
+	int T;
+	scanf("%d",&T);
+	while (T--){
+		scanf("%s",s);
+		int n = strlen(s);
+		Suffix(s,sa,n+1,127);
+		calheight(s,sa,n);
+		int ans = 0;
+		for (int i = 1;i <= n;++i)
+			if (height[i] > height[i-1]) ans += height[i]-height[i-1];
+		printf("%d\n",ans);
+	}
 	return 0;
 }

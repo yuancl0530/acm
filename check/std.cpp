@@ -1,59 +1,38 @@
-/*********************************
-Date: Fri Jul 13 13:21:00 CST 2018
-Author: ycl
-*********************************/
-#include <stdio.h>
-#include <queue>
+#include<bits/stdc++.h>
 using namespace std;
-#define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,(b),sizeof(a))
-#define MP(a,b) make_pair(a,b)
-#define ll long long
-const int mod = 1e9 + 7;
-const int maxn = 2e5 + 100;
-bool vs[maxn];
-struct Node
-{
-	int x,t;
-	Node (int x=0,int t=0):x(x),t(t){}
-};
-bool check(int u)
-{
-	return !(u < 0 || u >= maxn || vs[u]);
-}
-int bfs(int s,int k)
-{
-	vs[s] = true;
-	queue<Node> Q;
-	Q.push(Node(s));
-	vs[s] = true;
-	while (!Q.empty()){
-		int x = Q.front().x;
-		int t = Q.front().t;
-		Q.pop();
-		if (x == k) return t;
-		int u = x + 1;
-		if (check(u)) {
-			Q.push(Node(u,t+1));
-			vs[u] = true;
-		}
-		u = x - 1;
-		if (check(u)) {
-			Q.push(Node(u,t+1));
-			vs[u] = true;
-		}
-		u = x*2;
-		if (check(u)) {
-			Q.push(Node(u,t+1));
-			vs[u] = true;
-		}
-	}
-	return -1;
-}
+
+#define bll long long
+
+const int maxn = 1e5+100;
+const int mod = 1e9+7;
+int a[maxn];
+bll p[maxn];
+
 int main()
 {
-	int n,k;
-	scanf("%d%d",&n,&k);
-	printf("%d\n",bfs(n,k));
-	return 0;
+    a[1] = a[2] = 1;
+    for (int i=3;i<=100000;i++)
+        a[i] = a[i-a[i-1]] + a[i-1-a[i-2]];
+    p[1] = 1;
+    for (int i=2;i<=100000;i++)
+        p[i] = (p[i-1]+a[i]) % mod;
+
+    bll n;
+	cin>>n;
+    while (scanf("%lld",&n)!=EOF)
+    {
+        printf("%lld\n",p[n]);
+    }
+    
+    /*int n,x,ans;
+    while (scanf("%d",&n)!=EOF)
+    {
+        x = n;
+        ans = 0;
+        for (int i=0;p[i]<=x;i++)
+            ans += x/p[i];
+        printf("%d\n",ans+1);
+    }*/
+    return 0;
 }
+
