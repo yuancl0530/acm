@@ -45,11 +45,13 @@ void Sufffix(int n,int m)
 	for (i = p = 0;i < n;height[x[i++]] = p)
 		for (p? --p:0,j = sa[x[i]-1];s[i+p] == s[j+p];++p);
 }
-int S[maxn],top;
+struct {
+	int v,cnt;
+}S[maxn];
 int main()
 {
 	int k;
-	while (scanf("%d",&k) != EOF){
+	while (scanf("%d",&k) != EOF && k){
 		scanf("%s%s",s,t);
 		int n = strlen(s);
 		int mid = n;
@@ -60,24 +62,66 @@ int main()
 		while (i < m) s[n++] = t[i++];
 		s[n] = 0;
 		Sufffix(n+1,128);
-		for (int i = 1;i <= n;++i){
+		/*for (int i = 1;i <= n;++i){
 			if (height[i] < k) printf("\n");
 			printf("%d %s\n",height[i],s+sa[i]);
-		}
-		/*
-		int ans = 0;
-		top = 0;
-		for (int i = 2;i <= n;++i){
+		}*/
+		ll ans = 0;
+		int top = -1;
+		int cnt = 0;
+		ll sum = 0;
+		for (int i = 1;i <= n;++i){
 			if (height[i] >= k){
-				if (sa[i] < mid){
-					while (top > 0 && S[top] < sa[i]) --top;
-					S[++top] = sa[i];
+				cnt = 0;
+				while (top >= 0  && height[i] < S[top].v){
+					sum -= (ll)(S[top].v-k+1) * S[top].cnt;
+					sum += (ll)(height[i]-k+1) * S[top].cnt;
+					cnt += S[top--].cnt;
 				}
-				else{
-					if (height[i] >= S[top])
+				S[++top].v = height[i];
+				if (sa[i-1] < mid){
+					sum += (ll)(height[i]-k+1);
+					S[top].cnt = ++cnt;
+				}
+				else S[top].cnt = cnt;
+				if (sa[i] > mid){
+					ans += sum;
 				}
 			}
-		}*/
+			else{
+				sum = 0;
+				top = -1;
+			}
+			/*cout<<i<<" "<<ans<<" "<<" "<<sum<<endl;
+			for (int i = 0;i <= top;++i)
+				printf("(%d,%d)\n",S[top].v,S[top].cnt);
+			cout<<endl;*/
+		}
+		sum = cnt = 0;
+		for (int i = 1;i <= n;++i){
+			if (height[i] >= k){
+				cnt = 0;
+				while (top >= 0  && height[i] < S[top].v){
+					sum -= (ll)(S[top].v-k+1) * S[top].cnt;
+					sum += (ll)(height[i]-k+1) * S[top].cnt;
+					cnt += S[top--].cnt;
+				}
+				S[++top].v = height[i];
+				if (sa[i-1] > mid){
+					sum += (ll)(height[i]-k+1);
+					S[top].cnt = ++cnt;
+				}
+				else S[top].cnt = cnt;
+				if (sa[i] < mid){
+					ans += sum;
+				}
+			}
+			else{
+				sum = 0;
+				top = -1;
+			}
+		}
+		printf("%lld\n",ans);
 	}
 	return 0;
 }
