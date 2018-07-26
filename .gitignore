@@ -5,8 +5,7 @@ tmp/
 check/std.cpp
 check/test.cpp
 check/input
-check/output1
-check/output2
+check/output*
 *.pdf
 *.in
 *.out

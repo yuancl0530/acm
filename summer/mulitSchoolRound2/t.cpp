@@ -1,5 +1,5 @@
 /*********************************
-Date: Tue Jul 24 19:21:18 CST 2018
+Date: Wed Jul 25 20:39:24 CST 2018
 Author: ycl
 *********************************/
 #include <bits/stdc++.h>
@@ -13,10 +13,15 @@ const int maxn = 1e6 + 100;
 
 int main()
 {
-	int n = 1e4;
-	cout << n <<endl;
-	for (int i = 1;i <= n;++i)
-		cout<<(i%88+1)<<" ";
-	cout<<endl<<0<<endl;
+	ifstream fin1("out");
+	ifstream fin2("1007.out");
+	int a,b;
+	int i = 1;
+	while  ( fin1 >> a){
+		fin2 >> b;
+		if (a == b)
+			cout<<i<<": "<<a<<" "<<b<<endl;
+		++i;
+	}
 	return 0;
 }

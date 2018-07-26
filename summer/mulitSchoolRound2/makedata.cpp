@@ -30,12 +30,30 @@ char str[]="abcdefghijklmnopqrstuvwxyz";
 LL mrand(LL mod = maxdata);//获取一个随机数[1,n]
 void randLine(int n,LL mod = maxdata);//获取n个随机数
 void getStr(int n);//生成一个随机字符串
+struct Node
+{
+	int v,i;
+	friend bool operator < (Node a,Node b)
+	{
+		return a.v < b.v;
+	}
+}a[maxn];
 int main()
 {
 	creatseed();
-	getStr(10);
-	getStr(10);
-
+	for (int j = 0;j < 3;++j){
+	int n = 1e5;
+	for (int i = 0;i < n;++i){
+		a[i].v = mrand(1e6);
+		a[i].i = i;
+	}
+	sort(a,a+n);
+	cout<<n<<" "<<n<<endl;
+	for (int i = 0;i < n;++i)
+		cout << a[i].i <<" ";
+	for (int i = 0;i < n;++i)
+		cout<<"add 1 "<<n<<endl;
+	}
 	return 0;
 }
 

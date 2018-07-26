@@ -2,7 +2,9 @@
 Date: Tue Jul 24 20:01:37 CST 2018
 Author: ycl
 *********************************/
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
 using namespace std;
 #define CL(a) memset(a,0,sizeof(a))
 #define Cl(a,b) memset(a,(b),sizeof(a))
