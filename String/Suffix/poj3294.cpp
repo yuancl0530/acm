@@ -64,7 +64,6 @@ bool check(int k)
 	int cnt = 0;
 	bool flag = 0;
 	int t = 0;
-	//cout << k <<":"<<endl;
 	for (int i = 1;i <= m;++i){
 		if (height[i] >= k){
 			int t1 = getid(sa[i-1]);
@@ -78,7 +77,6 @@ bool check(int k)
 				vs[t2] = true;
 				++cnt;
 			}
-	//		cout << cnt << endl;
 			if (cnt > n/2 && !flag){
 				tmp[t++] = sa[i];
 				flag = true;
@@ -130,9 +128,6 @@ int main()
 			}
 			height[i] = t;
 		}
-		/*for (int i = 1;i <= m;++i)
-			printf("%d %s\n",height[i],s+sa[i]);
-		cout<<endl;*/
 		int l = 0;
 		int r = m;
 		while (l + 1 < r){
@@ -142,7 +137,6 @@ int main()
 			else
 				r = mid;
 		}
-		//cout << l << endl;
 		if (l){
 			for (int i = 0;i < ans.size();++i){
 				int v = ans[i];
