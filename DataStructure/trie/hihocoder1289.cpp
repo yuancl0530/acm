@@ -10,8 +10,8 @@ using namespace std;
 #define INF 0x3f3f3f3f
 #define ll long long
 const int mod = 1e9 + 7;
-const int maxn = 5e6 + 100;
-char s1[10],s2[100];
+const int maxn = 4e6 + 100;
+char s1[8],s2[32];
 struct Node
 {
 	int t,s;
