@@ -2,20 +2,7 @@
 Date: Mon May  7 14:54:37 CST 2018
 Author: ycl
 *********************************/
-#include <iostream>
-#include <cstdio>
-#include <string>
-#include <cstring>
-#include <cmath>
-#include <cctype>
-#include <cstdlib>
-#include <algorithm>
-#include <queue>
-#include <stack>
-#include <map>
-#include <vector>
-#include <set>
-#include <sstream>
+#include <bits/stdc++.h>
 using namespace std;
 #define CL(a) memset(a,0,sizeof(a))
 #define Cl(a,b) memset(a,b,sizeof(a))
