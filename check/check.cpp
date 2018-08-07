@@ -41,9 +41,9 @@ void check(int t)
 	int wrong = 0, t1 = 0, t2 = 0;
 	double t_std, t_test;
 	for (int i = 1;i <= t;i++){
-		run("./"+makedata+" >input");
-		t1=run("./"+testname,"output1",t_test);
-		t2=run("./"+stdname, "output2",t_std);
+		run("./bin/"+makedata+" > ./data/input");
+		t1=run("./bin/"+testname,"./data/output1",t_test);
+		t2=run("./bin/"+stdname, "./data/output2",t_std);
 		if (t1 || t2) {
 			printf("on test %d\n",i);
 			cout<<"Continue?(y/n?): ";
@@ -51,7 +51,7 @@ void check(int t)
 			if (c == 'y') continue;
 			else break;
 		}
-		else if (run("diff output1 output2")){
+		else if (run("diff ./data/output1 ./data/output2")){
 			wrong++;
 			saveWrong();
 			cout<<"Wrong Answer on test"<<i<<endl;
@@ -85,7 +85,7 @@ int run(const string file,const char *output,double &t,
 	struct tms tms_start,tms_end;
 	clock_t start,end;
 	start = times(&tms_start);
-	int ret = run("./judge "+file+" input"+" "+output+" "+m+" "+s+" " +ti);
+	int ret = run("./bin/judge "+file+" ./data/input"+" "+output+" "+m+" "+s+" " +ti);
 	end = times(&tms_end);
 	clock_t real = end - start;
 	t = real*1000 / (double)clktck;
@@ -97,7 +97,7 @@ int run(const string file,const char *output,double &t,
 
 void encode(string name)
 {
-	if (run("g++ "+name+".cpp -o "+name)){
+	if (run("g++ "+name+".cpp -o ./bin/"+name)){
 		cout<<name+".cpp: "<<"Complete error!"<<endl;
 		exit(-1);
 	}
@@ -108,13 +108,13 @@ void saveWrong()
 	static int t = 1;
 	stringstream tt;tt<<t++;
 	run("echo \"Test Data "+tt.str()+":\"|cat >> WrongData");
-	run("cat input >> WrongData");
+	run("cat ./data/input >> WrongData");
 	run("echo \"---------------\"|cat>>WrongData");
 	run("echo \"Correct Answer:\" |cat>> WrongData");
-	run("cat output2 >> WrongData");
+	run("cat ./data/output2 >> WrongData");
 	run("echo \"--------------\"|cat>>WrongData");
 	run("echo \"Output Answer:\" |cat>> WrongData");
-	run("cat output1 >> WrongData");
+	run("cat ./data/output1 >> WrongData");
 	run("echo \"---------------------------\"|cat>>WrongData");
 
 }

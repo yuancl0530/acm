@@ -23,9 +23,9 @@ void creatseed();
 LL GetTime();
 /*****************************************************************************/
 const LL maxdata = 1e5;//默认随机数最大值
-//char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
+char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
 //char str[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-char str[]="abc";//defghijklmnopqrstuvwxyz";
+//char str[]="abcdefghijklmnopqrstuvwxyz";
 //char str[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 LL mrand(LL mod = maxdata);//获取一个随机数[1,n]
 void randLine(int n,LL mod = maxdata);//获取n个随机数
@@ -33,10 +33,9 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	cout<<1<<endl;
-	int n = mrand(1e6);
-	int m = mrand(2);
-	cout<<n<<" "<<m<<endl;
+	cout<<100<<endl;
+	for (int i = 0;i < 100;++i)
+		getStr(mrand(1000));
 	return 0;
 }
 /***************************************************************************/

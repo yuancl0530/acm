@@ -2,10 +2,8 @@ in
 out
 a
 tmp/
-check/std.cpp
-check/test.cpp
-check/input
-check/output*
+check/data/*
+check/bin/*
 *.pdf
 *.in
 *.out
