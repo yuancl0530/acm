@@ -33,25 +33,12 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	cout<<"1"<<endl;
-	int n = mrand(10);
-	cout<<n<<endl;
-	randLine(n,100);
-	int m = 6;
-	cout<<m<<endl;
-	while (m--){
-		int x1 = mrand(10);
-		int x2 = mrand(10);
-		int y1 = mrand(10);
-		int y2 = mrand(10);
-		if (x1>x2) swap(x1,x2);
-		if (y1>y2) swap(y1,y2);
-		cout<<x1<<" "<<y1<<" "<<x2<<" "<<y2<<endl;
-
-	}
+	cout<<1<<endl;
+	int n = mrand(1e6);
+	int m = mrand(2);
+	cout<<n<<" "<<m<<endl;
 	return 0;
 }
-
 /***************************************************************************/
 LL mrand(LL mod)
 {

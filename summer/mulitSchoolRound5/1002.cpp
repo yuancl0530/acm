@@ -8,7 +8,6 @@ void dfsmin(int r, int ti)
 {
     if (r == n || ti == k)
     {
-        if (b[0] == 0) return;
         int tmp = 0;
         for (int i=0;i<n;i++) tmp = tmp*10+b[i];
         ans = min(ans,tmp);
@@ -16,8 +15,8 @@ void dfsmin(int r, int ti)
     }
 
     dfsmin(r+1,ti);
-    for (int i=0;i<n;i++)
-        if (i != r)
+    for (int i=r+1;i<n;i++)
+        if (b[i] < b[r])
         {
             swap(b[i],b[r]);
             dfsmin(r+1,ti+1);
@@ -37,8 +36,8 @@ void dfsmax(int r, int ti)
     }
 
     dfsmax(r+1,ti);
-    for (int i=0;i<n;i++)
-        if (i != r)
+    for (int i=r+1;i<n;i++)
+        if (a[i] > a[r])
         {
             swap(a[i],a[r]);
             dfsmax(r+1,ti+1);
@@ -53,33 +52,21 @@ int main()
     while (T--)
     {
         scanf("%s %d",s,&k);
-        k = min(k,9);
         n = strlen(s);
-        int tmp = 0;
         for (int i=0;i<n;i++)
-        {
             a[i] = b[i] = s[i]-'0';
-            tmp = tmp*10+a[i];
-        }
-        if (k == 0)
-        {
-            printf("%d %d\n",tmp,tmp);
-            continue;
-        }
-        ans = tmp;
-        dfsmin(1,0);
-        for (int i=1;i<n;i++)
-        {
-            if (b[i] != '0')
-            {
-                swap(b[i],b[0]);
-                dfsmin(1,1);
-                swap(b[i],b[0]);
-            }
-        }
+
+        ans = 1e9;
+        int mink = 0;
+        for (int i=n-1;i>0;i--)
+            if (b[i] < b[mink] && b[i] != 0)
+                mink = i;
+        if (mink) swap(b[0],b[mink]);
+        int ti = (mink==0)? 0 : 1;
+        dfsmin(1,ti);
         printf("%d ",ans);
 
-        ans = tmp;
+        ans = 0;
         dfsmax(0,0);
         printf("%d\n",ans);
     }

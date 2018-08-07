@@ -16,28 +16,34 @@ const int maxn = 1e6 + 100;
 #define N 26
 struct Node
 {
-	int cnt;
+	int id;
 	Node *fail;
 	Node *next[N];
 }node[maxn],*q[maxn];
 int Id = 0;
+int cnt[maxn];
+int getid(char s)
+{
+	if ('A'<=s && s<= 'Z') return s-'A';
+	return -1;
+}
 Node *createNode()
 {
-	node[Id].cnt = 0;
 	node[Id].fail = NULL;
+	node[Id].id = 0;
 	CL(node[Id].next);
 	return &node[Id++];
 }
-void insert(Node *root,char *s)
+void insert(Node *root,char *s,int id)
 {
 	Node * t= root;
 	for (int i = 0;s[i];++i){
-		int id = s[i] - 'a';
+		int id = getid(s[i]);
 		if (!t->next[id])
 			t->next[id] = createNode();
 		t = t->next[id];
 	}
-	++t->cnt;
+	t->id = id;
 }
 void buid(Node *root)
 {
@@ -57,43 +63,42 @@ void buid(Node *root)
 		}
 	}
 }
-int query(Node *root,char *s)
+void query(Node *root,char *s)
 {
 	
 	Node *p,*t;
 	p = root;
-	int ret = 0;
 	for (int i = 0;s[i];++i){
-		int id = s[i] - 'a';
+		int id = getid(s[i]);
+		if (id==-1) {p=root; continue;}
 		while (p != root && p->next[id]==NULL) p = p->fail;
 		p = p->next[id];
 		if (!p) p = root;
 		t = p;
-		while (t != root && t->cnt != -1){
-			ret += t->cnt;
-			t->cnt = -1;
+		while (t != root ){
+			++cnt[t->id];
 			t = t->fail;
 		}
 	}
-	return ret;
 }
-char s[maxn];
+char s[1010][60],t[maxn];
 int main()
 {
-	int T,n;
-	scanf("%d",&T);
-	while (T--){
-		scanf("%d",&n);
+	int n;
+	while (scanf("%d",&n) != EOF){
 		Id = 0;
+		for (int i = 1;i <= n;++i) cnt[i] = 0;
 		Node *root = createNode();
-		for (int i = 0;i < n;++i){
-			scanf("%s",s);
-			insert(root,s);
+		for (int i = 1;i <= n;++i){
+			scanf("%s",s[i]);
+			insert(root,s[i],i);
 		}
 		buid(root);
-		scanf("%s",s);
-		int ans = query(root,s);
-		printf("%d\n",ans);
+		scanf("%s",t);
+		query(root,t);
+		for (int i = 1;i <= n;++i)
+			if (cnt[i])
+				printf("%s: %d\n",s[i],cnt[i]);
 	}
 	return 0;
 }
