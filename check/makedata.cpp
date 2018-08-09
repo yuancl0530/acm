@@ -33,9 +33,26 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	cout<<100<<endl;
-	for (int i = 0;i < 100;++i)
-		getStr(mrand(1000));
+	cout<<1<<endl;
+	int n = 50000;
+	int m = 10000;
+	cout<<n<<" "<<m<<endl;
+	randLine(n,1e9);
+	while (m--){
+		int t = mrand();
+		if (t%3){
+			int l = mrand(n);
+			int r = mrand(n);
+			if (l>r) swap(l,r);
+			int k = mrand(r-l+1);
+			cout<<"Q"<<" "<<l<<" "<<r<<" "<<k<<endl;
+		}
+		else{
+			int x = mrand(n);
+			int y = mrand(1e9);
+			cout<<"C"<<" "<<x<<" "<<y<<endl;
+		}
+	}
 	return 0;
 }
 /***************************************************************************/
