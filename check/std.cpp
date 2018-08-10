@@ -1,139 +1,111 @@
-/*zoj2112 http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemCode=2112
-动态 kth
-每一棵线段树是维护每一个序列前缀的值在任意区间的个数，
-如果还是按照静态的来做的话，那么每一次修改都要遍历O(n)棵树，
-时间就是O(2*M*nlogn)->TLE
-考虑到前缀和，我们通过树状数组来优化，即树状数组套主席树，
-每个节点都对应一棵主席树，那么修改操作就只要修改logn棵树，
-o(nlognlogn+Mlognlogn)时间是可以的，
-但是直接建树要nlogn*logn（10^7）会MLE
-我们发现对于静态的建树我们只要nlogn个节点就可以了，
-而且对于修改操作，只是修改M次，每次改变俩个值（减去原先的，加上现在的）
-也就是说如果把所有初值都插入到树状数组里是不值得的，
-所以我们分两部分来做，所有初值按照静态来建，内存O(nlogn)，
-而修改部分保存在树状数组中，每次修改logn棵树，每次插入增加logn个节点
-O(M*logn*logn+nlogn)
-
-
-*/
-#include<cstdio>
-#include<cstring>
-#include<cstdlib>
-#include<iostream>
-#include<algorithm>
-#include<vector>
-#include<cmath>
-#define ls(i) T[i].ls
-#define rs(i) T[i].rs
-#define w(i) T[i].w
-#define Find(i) (lower_bound(LX.begin(),LX.begin()+n1,i)-LX.begin())+1
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <cmath>
+#include <cstring>
+#include <queue>
+#include <set>
+#include <vector>
+#include <map>
+#define ll long long
 
 using namespace std;
-const int N=60000+10;
-struct node{
-    int ls,rs,w;
-    node(){ls=rs=w=0;}
-}T[2000000];
-struct ope{
-    int i,l,r,k;
-}op[11000];
-vector<int> LX,Q1,Q2;
-int n,n1,m,cnt;
-int a[61000],root[61000*2];
-inline int lowbit(int x){
-    return x&-x;
-}
-void build(int &i,int l,int r,int x){
-    T[++cnt]=T[i]; i=cnt;
-    w(i)++;
-    if (l==r) return;
-    int m=(l+r)>>1;
-    if (x<=m) build(ls(i),l,m,x);
-    else build(rs(i),m+1,r,x);
-}
-void ins(int &i,int l,int r,int x,int v){
-    if (i==0){ T[++cnt]=T[i]; i=cnt; }
-    w(i)+=v;
-    if (l==r) return;
-    int m=(l+r)>>1;
-    if (x<=m) ins(ls(i),l,m,x,v);
-    else ins(rs(i),m+1,r,x,v);
-}
-void my_ins(int pos,int x,int v){
-    int t=Find(x);
-    for (int i=pos;i<=n;i+=lowbit(i)){
-        ins(root[i],1,n1,t,v);
-    }
-}
-int Qy(vector<int> Q1,vector<int> Q2,int l,int r,int k){
-    if (l==r) return l;
-    int c=0;
-    int m=(l+r)>>1;
-    for (int i=0;i<Q1.size();i++) c-=w(ls(Q1[i]));
-    for (int i=0;i<Q2.size();i++) c+=w(ls(Q2[i]));
-    for (int i=0;i<Q1.size();i++) Q1[i]=(c>=k?ls(Q1[i]):rs(Q1[i]));
-    for (int i=0;i<Q2.size();i++) Q2[i]=(c>=k?ls(Q2[i]):rs(Q2[i]));
 
-    if (c>=k) return Qy(Q1,Q2,l,m,k);
-    else return Qy(Q1,Q2,m+1,r,k-c);
-}
-void query(int l,int r,int k){
-    Q1.clear();Q2.clear();
-    Q1.push_back(root[l!=1?l-1+n:0]);
-    Q2.push_back(root[r+n]);
-    for (int i=l-1;i>0;i-=lowbit(i)) Q1.push_back(root[i]);
-    for (int i=r;i>0;i-=lowbit(i)) Q2.push_back(root[i]);
+const int N=100000+7;
 
-    int t=Qy(Q1,Q2,1,n1,k);
-    printf("%d\n",LX[t-1]);
-}
-void work(){
-    cnt=0;
-    //for (int i=0;i<n1;i++) cout<<list[i]<<" ";cout<<endl;
-    memset(root,0,sizeof(root));
-    for (int i=1;i<=n;i++){
-        root[i+n]=root[i-1+n];
-        int t=Find(a[i]);
-        build(root[i+n],1,n1,t);
+int root[N],tot;
+int Ls[N*30],Rs[N*30],add[N*30];
+ll sum[N*30];
+
+int n,m;
+
+inline int bulidtree(int L,int R){
+    int k=tot++;
+    add[k]=0;
+
+    if (L==R){ 
+        scanf("%lld",&sum[k]);
+        return k;
     }
-	int tmp = cnt;
-    for (int i=0;i<m;i++){
-        if (op[i].i==0){
-            query(op[i].l,op[i].r,op[i].k);
-        //    cout<<"*** "<<i<<endl;
-        }else{
-            my_ins(op[i].l,a[op[i].l],-1);
-            my_ins(op[i].l,op[i].r,1);
-            a[op[i].l]=op[i].r;
-        }
-    }
-	//cout<<cnt<<" "<<tmp<<" "<<n1<<endl;
+
+    int mid=(L+R)>>1;
+    Ls[k]=bulidtree(L,mid);
+    Rs[k]=bulidtree(mid+1,R);
+
+    sum[k]=sum[Ls[k]]+sum[Rs[k]];
+
+    return k;
 }
+
+inline int update(int o,int L,int R,int x,int LL,int RR){
+    int k=tot++;
+    Ls[k]=Ls[o]; Rs[k]=Rs[o]; add[k]=add[o]; sum[k]=sum[o];
+
+    sum[k]+=(ll)x*(R-L+1);    
+
+    if (LL==L && RR==R){
+        add[k]+=x;
+        return k;
+    }
+
+    int mid=(LL+RR)>>1;
+    if (R<=mid) Ls[k]=update(Ls[k],L,R,x,LL,mid);
+    else if (L>mid) Rs[k]=update(Rs[k],L,R,x,mid+1,RR);
+    else {
+        Ls[k]=update(Ls[k],L,mid,x,LL,mid);
+        Rs[k]=update(Rs[k],mid+1,R,x,mid+1,RR);
+    }
+
+    return k;
+}
+
+inline ll query(int o,int L,int R,int LL,int RR){
+    if (L==LL && R==RR) return sum[o];
+
+    int mid=(LL+RR)>>1;
+
+    ll ret=(ll)add[o]*(R-L+1);
+
+    if (R<=mid) return ret+query(Ls[o],L,R,LL,mid);
+    else if (L>mid) return ret+query(Rs[o],L,R,mid+1,RR);
+    else return ret+query(Ls[o],L,mid,LL,mid)+query(Rs[o],mid+1,R,mid+1,RR);
+}
+
 int main(){
-    int Cas;scanf("%d",&Cas);
-    while (Cas--){
-        scanf("%d%d",&n,&m);
-        LX.clear();
-        for (int i=1;i<=n;i++){
-            scanf("%d",&a[i]);LX.push_back(a[i]);
-        }
-        char s[10];
-        for (int i=0;i<m;i++){
-            scanf("%s",s);
-            if (s[0]=='Q'){
-                op[i].i=0;
-                scanf("%d%d%d",&op[i].l,&op[i].r,&op[i].k);
-            }else{
-                op[i].i=1;
-                scanf("%d%d",&op[i].l,&op[i].r);
-                LX.push_back(op[i].r);
+    int x,L,R;
+    int now;
+    char ch[3];
+
+    bool f=false;
+
+    while (~scanf("%d%d",&n,&m)){
+        if (f) puts("");
+        else f=true;
+
+        tot=0;
+        root[0]=bulidtree(1,n);
+        now=0;
+
+        while (m--){
+            scanf("%s",ch);
+            if (ch[0]=='C') {
+                scanf("%d%d%d",&L,&R,&x);
+                now++;
+                root[now]=update(root[now-1],L,R,x,1,n);
+            }
+            else if (ch[0]=='Q') {
+                scanf("%d%d",&L,&R);
+                printf("%lld\n",query(root[now],L,R,1,n));
+            }
+            else if (ch[0]=='H'){
+                scanf("%d%d%d",&L,&R,&x);
+                printf("%lld\n",query(root[x],L,R,1,n));
+            }
+            else if (ch[0]=='B') {
+                scanf("%d",&now);
             }
         }
-        sort(LX.begin(),LX.end());
-        n1=unique(LX.begin(),LX.end())-LX.begin();
-        work();
     }
-
 
     return 0;
 }

@@ -17,7 +17,7 @@ string testname = "test";
 string stdname = "std";
 string makedata = "makedata";
 string judge = "judge";
-const char * memory = "128";
+const char * memory = "256";
 const char * stack = "8";
 const char * ltime = "1";
 

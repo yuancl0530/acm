@@ -23,7 +23,8 @@ void creatseed();
 LL GetTime();
 /*****************************************************************************/
 const LL maxdata = 1e5;//默认随机数最大值
-char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
+//char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
+char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ";
 //char str[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 //char str[]="abcdefghijklmnopqrstuvwxyz";
 //char str[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -33,24 +34,42 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	cout<<1<<endl;
-	int n = 50000;
-	int m = 10000;
-	cout<<n<<" "<<m<<endl;
-	randLine(n,1e9);
+	int n = mrand(10000);
+	int m = mrand(10000);
+	cout << n <<" "<<m<<endl;
+	randLine(n);
+	int ti = 0;
 	while (m--){
-		int t = mrand();
-		if (t%3){
+		int t = mrand(4) % 4;
+		if (t == 0){
 			int l = mrand(n);
 			int r = mrand(n);
-			if (l>r) swap(l,r);
-			int k = mrand(r-l+1);
-			cout<<"Q"<<" "<<l<<" "<<r<<" "<<k<<endl;
+			if (l > r) swap(l,r);
+			int c = mrand(10);
+			cout<<"C "<<l<<" "<<r<<" "<<c<<endl;
+			++ti;
+		}
+		else if (t == 1){
+			int l = mrand(n);
+			int r = mrand(n);
+			if (l > r) swap(l,r);
+			cout<<"Q "<<l<<" "<<r<<endl;
+		}
+		else if (t == 2){
+			int l = mrand(n);
+			int r = mrand(n);
+			if (l > r) swap(l,r);
+			int c;
+			if (ti == 0) c = 0;
+			else c = mrand(ti);
+			cout<<"H "<<l<<" "<<r<<" "<<c<<endl;
 		}
 		else{
-			int x = mrand(n);
-			int y = mrand(1e9);
-			cout<<"C"<<" "<<x<<" "<<y<<endl;
+			int c;
+			if (ti == 0) c = 0;
+			else c = mrand(ti);
+			ti = c;
+			cout<<"B "<<c<<endl;
 		}
 	}
 	return 0;
