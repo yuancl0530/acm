@@ -10,7 +10,7 @@ using namespace std;
 #define INF 0x3f3f3f3f
 #define ll long long
 const int mod = 1e9 + 7;
-const int maxn = 2e5 + 100;
+const int maxn = 1e6 + 100;
 struct Node
 {
 	Node *left,*right;
@@ -39,22 +39,21 @@ int sum(int left,int right,int l,int r,Node *p)
 	int y = sum(mid+1,right,l,r,p->right);
 	return x + y;
 }
-int query(int left,int right,int k,Node *x)
+int query(int left,int right,int k,Node *x,Node *y)
 {
 	if (left == right) return left;
-	int sum = x->left->sum;;
+	int sum = x->left->sum - y->left->sum;
 	int mid = (left+right)>>1;
-	if (sum >= k) return query(left,mid,k,x->left);
-	return query(mid+1,right,k-sum,x->right);
+	if (sum >= k) return query(left,mid,k,x->left,y->right);
+	return query(mid+1,right,k-sum,x->right,y->right);
 }
 int main()
 {
-	//freopen("./data/input","r",stdin);
 	int T,m;
 	int kase = 0;
 	scanf("%d",&T);
 	while (T--){
-		printf("Case #%d:",++kase);
+		printf("Case %d:",++kase);
 		id = 0;
 		CL(last);
 		scanf("%d%d",&n,&m);
@@ -78,9 +77,8 @@ int main()
 			r = (y+ans)%n+1;
 			if (l > r) swap(l,r);
 			int s = sum(1,n,l,r,root[l]);
-			ans = query(1,n,(s+1)>>1,root[l]);
-		//	cout<<l<<" "<<r<<" "<<s<<" ";
-			printf(" %d",ans);
+			ans = query(1,n,(s+1)>>1,root[l],root[r+1]);
+			printf("%d ",ans);
 		}
 		printf("\n");
 	}
