@@ -24,9 +24,9 @@ LL GetTime();
 /*****************************************************************************/
 const LL maxdata = 1e5;//默认随机数最大值
 //char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ0123456789";
-char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ";
+//char str[]="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRTSUVWXYZ";
 //char str[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-//char str[]="abcdefghijklmnopqrstuvwxyz";
+char str[]="abcdefghijklmnopqrstuvwxyz";
 //char str[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 LL mrand(LL mod = maxdata);//获取一个随机数[1,n]
 void randLine(int n,LL mod = maxdata);//获取n个随机数
@@ -34,17 +34,22 @@ void getStr(int n);//生成一个随机字符串
 int main()
 {
 	creatseed();
-	cout<<1<<endl;
-	int n = mrand(10);
-	int m = mrand(10);
+	int n,m;
+	n = mrand(100);
 	cout<<n<<" "<<m<<endl;
-	randLine(n,10);
 	while (m--){
 		int l = mrand(n);
 		int r = mrand(n);
-		if (l>r) swap(l,r);
-		cout<<l<<" "<<r<<endl;
+		if (l > r) swap(l,r);
+		if (mrand(2) == 1){
+			cout<<"F "<<l<<" "<<r<<endl;
+		}
+		else{
+			int x = rand()%(n-(r-l));
+			cout<<"C "<<l<<" "<<r<<" "<<x<<endl;
+		}
 	}
+	cout<<-1<<" "<<-1<<endl;
 	return 0;
 }
 /***************************************************************************/

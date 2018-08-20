@@ -14,10 +14,14 @@ const int maxn = 1e6 + 100;
 struct Node
 {
 	int v,size;
+	int max;
 	bool reverse;
 	Node *son[2],*father;
 }node[maxn],*stk[maxn];
 int id,top;
+
+int a[maxn],cnt;
+
 Node *createNode(int v=0,Node *f=NULL){
 	Node *t;
 	if (top>=0) t = stk[top--];
@@ -37,7 +41,12 @@ private:
 	Node *root;
 	bool son(Node *f,Node *s) { return f->son[1] == s;}
 	int size(Node *x){return x? x->size:0;}
-	void update_size(Node *x){x->size = 1+size(x->son[0])+size(x->son[1]);}
+	void update_size(Node *x){
+		x->size = 1+size(x->son[0])+size(x->son[1]);
+		x->max = x->v;
+		if (x->son[0]) x->max = std::max(x->max,x->son[0]->max);
+		if (x->son[1]) x->max = std::max(x->max,x->son[1]->max);
+	}
 	void rotate(Node *x)
 	{
 		Node *f = x->father;
@@ -53,7 +62,7 @@ private:
 		else root = x;
 		update_size(f);
 	}
-	void splay(Node *x,Node *y)
+	void splay(Node *x,Node *y = NULL)
 	{
 		while (x->father != y){
 			Node *f = x->father;
@@ -66,12 +75,33 @@ private:
 		}
 		update_size(x);
 	}
+	void push(Node *x)
+	{
+		if (!x->reverse) return ;
+		if (x->son[0]) x->son[0]->reverse ^= 1;
+		if (x->son[1]) x->son[1]->reverse ^= 1;
+		swap(x->son[0],x->son[1]);
+		x->reverse = false;
+	}
 public:
 	Splay(){ id=top=-1,root = NULL;}
-	//void clear(){id=top=-1,root=NULL;}
+	void clear(){id=top=-1,root=NULL;}
 	bool empty() {return root == NULL;}
 	inline Node *Root(){return root;}
-	void insert(int v)
+
+	Node *build(int l,int r,int *a,Node *f=NULL)
+	{
+		if (l>r) return NULL;
+		int mid = (l+r)>>1;
+		Node *t = createNode(a[mid],f);
+		t->son[0] = build(l,mid-1,a,t);
+		t->son[1] = build(mid+1,r,a,t);
+		update_size(t);
+		return t;
+	}
+	void init(int l,int r,int *a) {root = build(l,r,a,NULL);}
+
+	/*void insert(int v)
 	{
 		if (root == NULL){ root = createNode(v); return ;}
 		for (Node *t=root;t;t=t->son[v>=t->v]){
@@ -83,7 +113,7 @@ public:
 	{
 		Node *t = root;
 		while (t && t->v != v)t = t->son[v>=t->v];
-		if (!t) return ;
+		if (!t) return ;                       
 		splay(t,NULL);
 		if (root->son[0]==NULL){
 			root = root->son[1];
@@ -99,7 +129,8 @@ public:
 			if (root->son[1]) root->son[1]->father = root;
 		}
 		freeNode(t);
-	}
+	}*/
+
 	Node* kth(int k,Node *p=NULL)
 	{
 		if (k <= size(p->son[0])) return kth(k,p->son[0]);
@@ -107,14 +138,6 @@ public:
 		if (k > t) return kth(k-t,p->son[1]);
 		splay(p,NULL);
 		return p;
-	}
-	int find(int v)
-	{
-		Node *p = root;
-		while (p && p->v!=v) p=p->son[v>=p->v];
-		if (!p) return -1;
-		splay(p,NULL);
-		return size(p->son[0])+1;
 	}
 	Node *min()
 	{
@@ -125,54 +148,101 @@ public:
 	}
 	Node *max()
 	{
-		Node *p = root;
+		Node* p = root;
 		while (p && p->son[1]) p = p->son[1];
 		if (p) splay(p,NULL);
 		return p;
 	}
-	void join(Splay &s)
+	Node *min(Node *p)
 	{
-		Node *root = max();
-		root->son[1] = s.root;
-		s.root->father = root;
-		update_size(root);
+		while (p && p->son[0]) p = p->son[0];
+		return p;
+	}
+	Node *max(Node *p)
+	{
+		while (p && p->son[1]) p = p->son[1];
+		return p;
+	}
+	Node *next(Node *x)
+	{
+		if (x->son[1]){
+			x = x->son[1];
+			while (x->son[0]) x = x->son[0];
+			return x;
+		}
+		Node *y = x->father;
+		while (y && son(y,x)){
+			x = y;
+			y = x->father;
+		}
+		return y;
+	}
+	Node *pre(Node *x)
+	{
+		if (x->son[0]){
+			x = x->son[0];
+			while (x->son[1]) x = x->son[1];
+			return x;
+		}
+		Node *y = x->father;
+		while (y && !son(y,x)){
+			x = y;
+			y = x->father;
+		}
+		return y;
+	}
+	void update(int x,int y)
+	{
+		Node *t = kth(x+1,root);
+		t->v = y;
+		update_size(t);
+	}
+	Node *select(int l,int r)
+	{
+		Node *x = kth(l,root);
+		Node *y = kth(r,root);
+		Node *p = pre(x);
+		splay(p,NULL);
+		Node *t = next(y);
+		splay(t,root);
+		//cout<<x->v<<" "<<y->v<<" "<<p->v<<" "<<t->v<<endl;
+		return t->son[0];
+	}
+	int query(int l,int r)
+	{
+		Node *x = select(l+1,r+1);
+		return x->max;
 	}
 	void vis(Node *p)
 	{
 		if (p->son[0]) {
-			cout<<"\t"<<p->v<<"->"<<p->son[0]->v<<endl;
 			vis(p->son[0]);
 		}
-		cout << p->v <<"[label="<<p->v<<"."<<p->size<<"];"<<endl;
+		a[cnt++] = p->v;
 		if (p->son[1]) {
-			cout<<"\t"<<p->v<<"->"<<p->son[1]->v<<endl;
 			vis(p->son[1]);
 		}
 	}
-	/***区间操作***/
-	Node *build(int l,int r,int *a,Node *f=NULL)
-	{
-		if (l>r) return NULL;
-		int mid = (l+r)>>1;
-		Node *t = createNode(a[mid],f);
-		t->son[0] = build(l,mid-1,a,t);
-		t->son[1] = build(mid+1,r,a,t);
-		update_size(t);
-		return t;
-	}
-	void init(int l,int r,int *a) {root = build(l,r,a,NULL);}
 }splay;
-int a[maxn];
 int main()
 {
-	int n,t;
-	for (int i = 1;i <= 10;++i){
-		a[i] = i;
+	int n,m;
+	while (scanf("%d%d",&n,&m) != EOF){
+		for (int i = 1;i <= n;++i)
+			scanf("%d",&a[i]);
+		a[0] = -1;
+		a[n+1] = -1;
+		splay.clear();
+		splay.init(0,n+1,a);
+		char op[5];
+		int x,y;
+		while (m--){
+			scanf("%s%d%d",op,&x,&y);
+			if (op[0] == 'Q')
+				printf("%d\n",splay.query(x,y));
+			else
+				splay.update(x,y);
+		}
 	}
-	splay.init(1,10,a);
-	//for (int i = 1;i <= 10;i*=2) splay.kth(i,splay.Root());
-	cout<<"digraph g{"<<endl;
-	splay.vis(splay.Root());
-	cout<<"}"<<endl;
 	return 0;
 }

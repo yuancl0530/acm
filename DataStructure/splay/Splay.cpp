@@ -30,7 +30,7 @@ void freeNode(Node *t) { stk[++top] = t; }
 class Splay
 {
 private:
-	Node *root;
+	Node *root; 
 	bool son(Node *f,Node *s);
 	int size(Node *x);
 	void push_up(Node *x);
@@ -42,55 +42,24 @@ public:
 	inline Node* Root();
 	void clear();
 	void init(int l,int r,int *a);
-	void insert(int x,int v); //在第x个位置后面插入a
+	void insert(int x,int v);  
 	void insert(int x,int *a,int n);
 	void insert(int x,Node *y);
 	void erase(int l,int r);
 	void vis(Node *p);
 	bool empty();
 	Node* build(int l,int r,int *a,Node *f=NULL);
-	Node* kth(int k,Node *p=NULL);
+	Node* kth(int k,Node *p);
 	Node* min(Node *p=NULL);
 	Node* max(Node *p=NULL);
 	Node* next(Node *x);
 	Node* pre(Node *x);
 	Node* select(int l,int r);
 	Node* reverse(int l,int r);
-	void cut(int l,int r,int x);
 }splay;
-int a[maxn],cnt;
 int main()
 {
-	int n,m,l,r,x;
-	//freopen("in","r",stdin);
-	char op[10];
-	while (scanf("%d%d",&n,&m) != EOF && n>=0 && m>=0){
-		splay.clear();
-		for (int i = 0;i <= n;++i) a[i] = i;
-		splay.init(0,n+1,a);
-		while (m--){
-			scanf("%s%d%d",op,&l,&r);
-			if (op[0] == 'C'){
-				scanf("%d",&x);
-				splay.cut(l,r,x);
-			}
-			else splay.reverse(l+1,r+1);
-		}
-		cnt = 0;
-		splay.vis(splay.Root());
-		for (int i = 1;i <= n;++i)
-			printf("%d%c",a[i],i==n?'\n':' ');
-	}
 	return 0;
-}
-
-void Splay::cut(int l,int r,int x)
-{
-	Node* p = select(l+1,r+1);
-	Node* f = p->father;
-	f->son[son(f,p)] = NULL;
-	splay(f,NULL);
-	insert(x+1,p);
 }
 
 bool Splay::son(Node *f,Node *s) { return f->son[1] == s;}
@@ -167,6 +136,7 @@ Node* Splay::kth(int k,Node *p)
 void Splay::insert(int x,int v) //在第x个位置后面插入a
 {
 	Node *p = kth(x,root);
+	push_down(p);
 	if (!p->son[1]) {
 		p->son[1] = createNode(v,p);
 		p = p->son[1];
@@ -186,6 +156,7 @@ void Splay::insert(int x,int v) //在第x个位置后面插入a
 void Splay::insert(int x,int *a,int n)
 {
 	Node *p = kth(x,root);
+	push_down(p);
 	if (!p->son[1]) {
 		p->son[1] = build(1,n,a);
 		p->son[1]->father = p;
@@ -300,7 +271,7 @@ void Splay::vis(Node *p)
 	if (p->son[0]) {
 		vis(p->son[0]);
 	}
-	a[cnt++] = p->v;
+	printf("%d ",p->v);
 	if (p->son[1]) {
 		vis(p->son[1]);
 	}

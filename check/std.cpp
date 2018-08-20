@@ -1,72 +1,166 @@
-#include<cstdio>
-#include<cstring>
+/*************************************************************************
+    > File Name: A.cpp
+    > Author: acvcla
+    > QQ:
+    > Mail: acvcla@gmail.com 
+    > Created Time: 2014年11月17日 星期一 23时34分13秒
+ ************************************************************************/
 #include<iostream>
 #include<algorithm>
-#include<cmath>
+#include<cstdio>
+#include<vector>
+#include<cstring>
+#include<map>
+#include<queue>
+#include<stack>
+#include<string>
+#include<cstdlib>
+#include<ctime>
+#include<set>
+#include<math.h>
 using namespace std;
 typedef long long LL;
-const int N = 2e5 + 10, M = 1e6, mod = 1e9+7, inf = 2e9;
-
-int T,n,q,a[N],l[N*36],r[N*36],v[N*36],sz,root[N],ans[N],last[N];
-
-void update(int x, int &y, int ll, int rr, int k,int c) {
-     y = ++sz;
-     v[y] = v[x] + c;
-     r[y] = r[x];
-     l[y] = l[x];
-     if(ll == rr) return ;
-     int mid = (ll+rr)>>1;
-     if(k <= mid) update(l[x], l[y], ll, mid, k,c);
-     else update(r[x], r[y], mid + 1, rr, k,c);
+typedef pair<int,int>pii;
+const int maxn = 3e5 + 10;
+#define rep(i,a,b) for(int i=(a);i<=(b);i++)
+#define pb push_back
+int siz[maxn],rev[maxn],pre[maxn],ch[maxn][2],key[maxn],ans[maxn];
+int tot,root,n;
+inline void newnode(int &x,int fa,int k){
+	x=++tot;
+	pre[x]=fa;
+	siz[x]=1;
+	key[x]=k;
+	ch[x][0]=ch[x][1]=rev[x]=0;
 }
-int query(int x,int ll,int rr,int s,int t) {
-    if (s <= ll && rr <= t) return v[x];
-    int mid = ll + rr >> 1, res = 0;
-    if (s <= mid) res += query(l[x], ll, mid, s, t);
-    if (t > mid) res += query(r[x], mid + 1, rr, s, t);
-    return res;
+inline void Modify(int x){
+	if(!x)return;
+	rev[x]^=1;
 }
-
-int finds(int x,int ll,int rr,int k) {
-        if(ll == rr) return ll;
-        int mid = ll + rr >> 1;
-        if(v[l[x]] >= k) return finds(l[x],ll,mid,k);
-        else return finds(r[x],mid+1,rr,k-v[l[x]]);
+inline void push_down(int x){
+	if(x&&rev[x]){
+		swap(ch[x][0],ch[x][1]);
+		Modify(ch[x][0]);
+		Modify(ch[x][1]);
+		Modify(x);
+	}
 }
-
-int main() {
-        int cas = 0;
-        scanf("%d",&T);
-        while(T--) {
-            scanf("%d%d",&n,&q);
-            sz = 0;
-            memset(last,0,sizeof(last));
-            memset(v,0,sizeof(v));
-            memset(l,0,sizeof(l));
-            memset(r,0,sizeof(r));
-            ans[0] = 0;
-            root[n+1] = 0;
-            for(int i = 1; i <= n; ++i) scanf("%d",&a[i]);
-            for(int i = n; i >= 1; --i) {
-                int x = root[i] = 0;
-                update(root[i+1],x,1,n,i,1);
-                if(last[a[i]]) {
-                    update(x,root[i],1,n,last[a[i]],-1);
-                } else root[i] = x;
-                last[a[i]] = i;
-            }
-            int L,R;
-            for(int i = 1; i <= q; ++i) {
-                scanf("%d%d",&L,&R);
-                L = ((L + ans[i-1])%n) + 1;
-                R = ((R + ans[i-1])%n) + 1;
-                if(L > R) swap(L,R);
-                int sum = query(root[L],1,n,L,R)  + 1 >> 1;
-                ans[i] = finds(root[L],1,n,sum);
-            }
-            printf("Case #%d: ",++cas);
-            for(int i = 1; i < q; ++i)  printf("%d ",ans[i]);
-            cout<<ans[q]<<endl;
-        }
-        return 0;
+inline void push_up(int x){
+	if(!x)return ;
+	siz[x]=siz[ch[x][0]]+siz[ch[x][1]]+1;
+}
+void built(int &x,int L,int R,int fa){
+	if(L>R)return;
+	int M=(L+R)>>1;
+	newnode(x,fa,M);
+	built(ch[x][0],L,M-1,x);
+	built(ch[x][1],M+1,R,x);
+	push_up(x);
+}
+void Rotate(int x,int kind){
+	int y=pre[x];
+	push_down(y);
+	push_down(x);
+ 
+	ch[y][!kind]=ch[x][kind];
+	pre[ch[x][kind]]=y;
+	ch[x][kind]=y;
+ 
+	if(pre[y])ch[pre[y]][ch[pre[y]][1]==y]=x;
+	pre[x]=pre[y];
+	pre[y]=x;
+ 
+	push_up(y);
+	push_up(x);
+}
+void Splay(int x,int goal){
+	while(pre[x]!=goal){
+		if(pre[pre[x]]==goal){
+			Rotate(x,ch[pre[x]][0]==x);
+		}else{
+			int y=pre[x];
+			int kind=(ch[pre[y]][0]==y);
+			if(ch[y][kind]==x){
+				Rotate(x,!kind);
+				Rotate(x,kind);
+			}else{
+				Rotate(y,kind);
+				Rotate(x,kind);
+			}
+		}
+	}
+	if(goal==0)root=x;
+}
+int Get_kth(int x,int k){
+	push_down(x);
+	int tz=siz[ch[x][0]]+1;
+	if(tz==k)return x;
+	if(tz>k)return Get_kth(ch[x][0],k);
+	return Get_kth(ch[x][1],k-tz);
+}
+void init(int n){
+	root=tot=siz[0]=pre[0]=ch[0][0]=ch[0][1]=rev[0]=0;
+	newnode(root,0,-1);
+	newnode(ch[root][1],root,n+1);
+	built(ch[ch[root][1]][0],1,n,ch[root][1]);
+	push_up(ch[root][1]);
+	push_up(root);
+}
+int Get_max(int x){
+	push_down(x);
+	while(ch[x][1]){
+		x=ch[x][1];
+		push_down(x);
+	}
+	return x;
+}
+void merge(int root1,int root2)/*root2接到root1右子树，要求root1无右子树*/
+{
+	ch[root1][1]=root2;
+	pre[root2]=root1;
+}
+int __;
+void travel(int x){
+	if(!x)return;
+	push_down(x);
+	travel(ch[x][0]);
+	ans[__++]=key[x];
+	travel(ch[x][1]);
+}
+int main(){
+		int n,m;
+		while(~scanf("%d%d",&n,&m)){
+			if(n<0&&m<0)return 0;
+			init(n);
+			char op[10];
+			int L,R,C;
+			while(m--){
+				scanf("%s%d%d",op,&L,&R);
+				if(op[0]=='F'){
+					Splay(Get_kth(root,L),0);
+					Splay(Get_kth(root,R+2),root);
+					Modify(ch[ch[root][1]][0]);
+				}else{
+					scanf("%d",&C);
+					Splay(Get_kth(root,L),0);
+					Splay(Get_kth(root,R+2),root);
+					int root1=ch[ch[root][1]][0];/*删除区间[L,R]*/
+					ch[ch[root][1]][0]=0;
+					push_up(ch[root][1]);
+					push_up(root);
+					Splay(Get_kth(root,C+1),0);/*先分裂区间C两边，插入区间[L,R]，然后合并*/
+					int root2=ch[root][1];
+					merge(root,root1);
+					push_up(root);
+					Splay(Get_max(root),0);
+					merge(root,root2);
+					push_up(root);
+				}
+			}
+			__=0;
+			travel(root);
+			rep(i,1,n)printf("%d ",ans[i]);
+			printf("\n");
+		}
+		return 0;
 }

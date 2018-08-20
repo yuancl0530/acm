@@ -12,7 +12,7 @@ struct Node
 	int v,size;
 	bool reverse;
 	Node *son[2],*father;
-}node[maxn],*stk[maxn];
+}node[maxn],*stk[maxn],*p[maxn];
 int id,top;
 Node *createNode(int v=0,Node *f=NULL){
 	Node *t;
@@ -30,7 +30,7 @@ void freeNode(Node *t) { stk[++top] = t; }
 class Splay
 {
 private:
-	Node *root;
+	Node *root; 
 	bool son(Node *f,Node *s);
 	int size(Node *x);
 	void push_up(Node *x);
@@ -41,56 +41,63 @@ public:
 	Splay();
 	inline Node* Root();
 	void clear();
-	void init(int l,int r,int *a);
-	void insert(int x,int v); //在第x个位置后面插入a
+	void init(int l,int r);
+	void insert(int x,int v);  
 	void insert(int x,int *a,int n);
 	void insert(int x,Node *y);
-	void erase(int l,int r);
+	Node* erase(int l,int r);
 	void vis(Node *p);
 	bool empty();
-	Node* build(int l,int r,int *a,Node *f=NULL);
-	Node* kth(int k,Node *p=NULL);
+	Node* build(int l,int r,Node *f=NULL);
+	Node* kth(int k,Node *p);
 	Node* min(Node *p=NULL);
 	Node* max(Node *p=NULL);
 	Node* next(Node *x);
 	Node* pre(Node *x);
 	Node* select(int l,int r);
 	Node* reverse(int l,int r);
-	void cut(int l,int r,int x);
+	void Top(int x)
+	{
+		Node* t = p[x];
+		splay(t,NULL);
+		int k = size(t->son[0]) + 1;
+		erase(k,k);
+		insert(1,t);
+		splay(t,NULL);
+	}
+	int query(int x)
+	{
+		Node* t = p[x];
+		splay(t,NULL);
+		return size(t->son[0]) + 1;
+	}
+	int rank(int x)
+	{
+		return kth(x,root)->v;
+	}
 }splay;
-int a[maxn],cnt;
 int main()
 {
-	int n,m,l,r,x;
-	//freopen("in","r",stdin);
-	char op[10];
-	while (scanf("%d%d",&n,&m) != EOF && n>=0 && m>=0){
+	int T;
+	scanf("%d",&T);
+	int n,m,x;
+	char op[5];
+	for (int kase = 1;kase <= T;++kase){
+		printf("Case %d;\n",kase);
+		scanf("%d%d",&n,&m);
 		splay.clear();
-		for (int i = 0;i <= n;++i) a[i] = i;
-		splay.init(0,n+1,a);
+		splay.init(0,n+1);
 		while (m--){
-			scanf("%s%d%d",op,&l,&r);
-			if (op[0] == 'C'){
-				scanf("%d",&x);
-				splay.cut(l,r,x);
-			}
-			else splay.reverse(l+1,r+1);
+			scanf("%s%d",op,&x);
+			if (op[0] == 'T')
+				splay.Top(x);
+			else if (op[0] == 'Q')
+				printf("%d\n",splay.query(x)-1);
+			else
+				printf("%d\n",splay.rank(x+1));
 		}
-		cnt = 0;
-		splay.vis(splay.Root());
-		for (int i = 1;i <= n;++i)
-			printf("%d%c",a[i],i==n?'\n':' ');
 	}
 	return 0;
-}
-
-void Splay::cut(int l,int r,int x)
-{
-	Node* p = select(l+1,r+1);
-	Node* f = p->father;
-	f->son[son(f,p)] = NULL;
-	splay(f,NULL);
-	insert(x+1,p);
 }
 
 bool Splay::son(Node *f,Node *s) { return f->son[1] == s;}
@@ -143,17 +150,18 @@ Splay::Splay(){ id=top=-1,root = NULL;}
 void Splay::clear(){id=top=-1,root=NULL;}
 bool Splay::empty() {return root == NULL;}
 inline Node* Splay::Root(){return root;}
-Node* Splay::build(int l,int r,int *a,Node *f)
+Node* Splay::build(int l,int r,Node *f)
 {
 	if (l>r) return NULL;
 	int mid = (l+r)>>1;
-	Node *t = createNode(a[mid],f);
-	t->son[0] = build(l,mid-1,a,t);
-	t->son[1] = build(mid+1,r,a,t);
+	Node *t = createNode(mid,f);
+	p[mid] = t;
+	t->son[0] = build(l,mid-1,t);
+	t->son[1] = build(mid+1,r,t);
 	push_up(t);
 	return t;
 }
-void Splay::init(int l,int r,int *a) {root = build(l,r,a,NULL);}
+void Splay::init(int l,int r) {root = build(l,r,NULL);}
 Node* Splay::kth(int k,Node *p)
 {
 	push_down(p);
@@ -167,6 +175,7 @@ Node* Splay::kth(int k,Node *p)
 void Splay::insert(int x,int v) //在第x个位置后面插入a
 {
 	Node *p = kth(x,root);
+	push_down(p);
 	if (!p->son[1]) {
 		p->son[1] = createNode(v,p);
 		p = p->son[1];
@@ -186,8 +195,9 @@ void Splay::insert(int x,int v) //在第x个位置后面插入a
 void Splay::insert(int x,int *a,int n)
 {
 	Node *p = kth(x,root);
+	push_down(p);
 	if (!p->son[1]) {
-		p->son[1] = build(1,n,a);
+		p->son[1] = build(1,n);
 		p->son[1]->father = p;
 		p = p->son[1];
 	}
@@ -198,7 +208,7 @@ void Splay::insert(int x,int *a,int n)
 			p = p->son[0];
 			push_down(p);
 		}
-		p->son[0] = build(1,n,a);
+		p->son[0] = build(1,n);
 		p->son[0]->father = p;
 		p = p->son[0];
 	}
@@ -300,15 +310,16 @@ void Splay::vis(Node *p)
 	if (p->son[0]) {
 		vis(p->son[0]);
 	}
-	a[cnt++] = p->v;
+	printf("%d ",p->v);
 	if (p->son[1]) {
 		vis(p->son[1]);
 	}
 }
-void Splay::erase(int l,int r)
+Node* Splay::erase(int l,int r)
 {
 	Node* x = select(l,r);
 	Node* f = x->father;
 	f->son[son(f,x)] = NULL;
 	splay(f,NULL);
+	return x;
 }

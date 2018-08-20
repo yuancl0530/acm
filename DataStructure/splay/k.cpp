@@ -6,7 +6,7 @@ using namespace std;
 #define INF 0x3f3f3f3f
 #define ll long long
 const int mod = 1e9 + 7;
-const int maxn = 1e6 + 100;
+const int maxn = 5e6 + 100;
 struct Node
 {
 	int v,size;
@@ -32,13 +32,14 @@ class Splay
 private:
 	Node *root;
 	bool son(Node *f,Node *s);
-	int size(Node *x);
 	void push_up(Node *x);
 	void push_down(Node *x);
 	void rotate(Node *x);
 	void splay(Node *x,Node *y = NULL);
+	Node *cur;
 public:
 	Splay();
+	int size(Node *x);
 	inline Node* Root();
 	void clear();
 	void init(int l,int r,int *a);
@@ -49,48 +50,91 @@ public:
 	void vis(Node *p);
 	bool empty();
 	Node* build(int l,int r,int *a,Node *f=NULL);
-	Node* kth(int k,Node *p=NULL);
+	Node* kth(int k,Node *p);
 	Node* min(Node *p=NULL);
 	Node* max(Node *p=NULL);
 	Node* next(Node *x);
 	Node* pre(Node *x);
 	Node* select(int l,int r);
 	Node* reverse(int l,int r);
-	void cut(int l,int r,int x);
+	void move(int k)
+	{
+		cur = kth(k,root);
+	}
+	void insert(int n,int *a)
+	{
+		int k = size(cur->son[0]) + 1;
+		insert(k,a,n);
+		splay(cur,NULL);
+	}
+	void del(int n)
+	{
+		int k = size(cur->son[0]) + 1;
+		erase(k+1,k+n);
+		splay(cur,NULL);
+	}
+	void rota(int n)
+	{
+		int k = size(cur->son[0]) + 1;
+		reverse(k+1,k+n);
+		splay(cur,NULL);
+	}
+	char get()
+	{
+		return next(cur)->v;
+	}
+	void pr()
+	{
+		cur = pre(cur);
+		splay(cur,NULL);
+	}
+	void nex()
+	{
+		cur = next(cur);
+		splay(cur,NULL);
+	}
 }splay;
-int a[maxn],cnt;
+int a[maxn];
+char s[maxn];
 int main()
 {
-	int n,m,l,r,x;
+	int n;
 	//freopen("in","r",stdin);
+	scanf("%d",&n);
+	splay.init(0,1,a);
 	char op[10];
-	while (scanf("%d%d",&n,&m) != EOF && n>=0 && m>=0){
-		splay.clear();
-		for (int i = 0;i <= n;++i) a[i] = i;
-		splay.init(0,n+1,a);
-		while (m--){
-			scanf("%s%d%d",op,&l,&r);
-			if (op[0] == 'C'){
-				scanf("%d",&x);
-				splay.cut(l,r,x);
-			}
-			else splay.reverse(l+1,r+1);
+	int k;
+	while (n--){
+		scanf("%s",op);
+		if (op[0] == 'M'){
+			scanf("%d",&k);
+			splay.move(k+1);
 		}
-		cnt = 0;
-		splay.vis(splay.Root());
-		for (int i = 1;i <= n;++i)
-			printf("%d%c",a[i],i==n?'\n':' ');
+		else if (op[0] == 'I'){
+			scanf("%d",&k);
+			getchar();
+			cin.getline(s,maxn);
+			//cout<<s<<endl;
+			for (int i = 0;i < k;++i) a[i] = s[i];
+			splay.insert(k,a);
+		}
+		else if (op[0] == 'D'){
+			scanf("%d",&k);
+			splay.del(k);
+		}
+		else if (op[0] == 'R'){
+			scanf("%d",&k);
+			splay.rota(k);
+		}
+		else if (op[0] == 'G'){
+			printf("%c\n",splay.get());
+		}
+		else if (op[0] == 'P') splay.pr();
+		else splay.nex();
+		/*splay.vis(splay.Root());
+		printf("\n%d\n",splay.size(splay.Root()));*/
 	}
 	return 0;
-}
-
-void Splay::cut(int l,int r,int x)
-{
-	Node* p = select(l+1,r+1);
-	Node* f = p->father;
-	f->son[son(f,p)] = NULL;
-	splay(f,NULL);
-	insert(x+1,p);
 }
 
 bool Splay::son(Node *f,Node *s) { return f->son[1] == s;}
@@ -153,7 +197,7 @@ Node* Splay::build(int l,int r,int *a,Node *f)
 	push_up(t);
 	return t;
 }
-void Splay::init(int l,int r,int *a) {root = build(l,r,a,NULL);}
+void Splay::init(int l,int r,int *a) {root = build(l,r,a,NULL); cur = min();}
 Node* Splay::kth(int k,Node *p)
 {
 	push_down(p);
@@ -187,7 +231,7 @@ void Splay::insert(int x,int *a,int n)
 {
 	Node *p = kth(x,root);
 	if (!p->son[1]) {
-		p->son[1] = build(1,n,a);
+		p->son[1] = build(0,n-1,a);
 		p->son[1]->father = p;
 		p = p->son[1];
 	}
@@ -198,7 +242,7 @@ void Splay::insert(int x,int *a,int n)
 			p = p->son[0];
 			push_down(p);
 		}
-		p->son[0] = build(1,n,a);
+		p->son[0] = build(0,n-1,a);
 		p->son[0]->father = p;
 		p = p->son[0];
 	}
@@ -300,7 +344,7 @@ void Splay::vis(Node *p)
 	if (p->son[0]) {
 		vis(p->son[0]);
 	}
-	a[cnt++] = p->v;
+	printf("%c ",p->v);
 	if (p->son[1]) {
 		vis(p->son[1]);
 	}
