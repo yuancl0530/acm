@@ -1,7 +1,7 @@
 in
 out
 a
-tmp/
+tmp/*
 check/data/*
 check/bin/*
 *.pdf

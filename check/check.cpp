@@ -1,13 +1,15 @@
 #include <iostream>
 #include <string>
 #include <cstring>
-#include <cstdlib>
 #include <algorithm>
 #include <sstream>
 #include <sys/times.h>
-#include <sys/wait.h>
 #include <unistd.h>
 using namespace std;
+#define DE(format, ...) printf (format,##__VA_ARGS__)
+#define RED(str) printf("\033[1;31m%s\033[0m",str)
+#define GREEN(str) printf("\033[1;32m%s\033[0m",str)
+#define YELLOW printf("\033[1;33m");
 #define KB (1024)
 #define TLE 9
 #define MLE 11
@@ -54,14 +56,16 @@ void check(int t)
 		else if (run("diff ./data/output1 ./data/output2")){
 			wrong++;
 			saveWrong();
-			cout<<"Wrong Answer on test"<<i<<endl;
+			RED("Wrong Answer ");
+			cout<<"on test"<<i<<endl;
 			cout<<"Continue?(y/n?): ";
 			char c;cin>>c;
 			if (c == 'y') continue;
 			else break;
 		}
 		else {
-			printf("Accepted test %d",i);
+			GREEN("Accepted ");
+			printf("test %d",i);
 			printf("(std:%.0lfms test:%.0lfms)\n",t_std,t_test);
 		}
 	}
