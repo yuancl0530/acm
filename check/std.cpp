@@ -1,56 +1,61 @@
 #include <bits/stdc++.h>
-#define maxn 20000000
-#define LL long long int
 using namespace std;
 
-int isprime[maxn+10];
-int prime[maxn/10];
-int num[maxn+10];
-LL S[maxn+10];
-LL quick_pow(LL x,LL n)
-{
-   return 1ll<<n;
-}
-void askprime()
-{
-    fill(isprime,isprime+maxn+10,1);
-    isprime[0]=isprime[1]=0;
-    num[1]=0;
-    int cnt=0;
-    for(int i=2;i<=maxn;i++)
-    {
-        if(isprime[i]) prime[cnt++]=i,num[i]=1;
-        for(int j=0;j<cnt&&1ll*i*prime[j]<=maxn;j++)
-        {
-            isprime[i*prime[j]] = 0;
-            if(i%prime[j]==0)
-            {
-                int x=i/prime[j];
-                if(x%prime[j]==0) num[i*prime[j]]=-1;
-                else num[i*prime[j]] = num[x];
-                break;
-            }
-            else
-                num[i*prime[j]] = num[i]==-1?-1:num[i]+1;
-        }
-    }
-	num[0] = 0;
-    for(int i=1;i<=maxn;i++)
-    {
-        if(num[i]==-1) S[i]=S[i-1];
-        else S[i]=S[i-1]+quick_pow(2LL,(long long int)(num[i]));
-    }
-}
+int q[105];
+int e[105];
+int dp[105][105][5];
+
 int main()
 {
-    askprime();
-    int t;
-	cin>>t;
-    while(t--)
+    int n, m;
+    scanf("%d%d", &n, &m);
+    memset(dp, 0, sizeof(dp));
+
+    for(int i = 1; i <= n; i++) scanf("%d", &q[i]);
+    e[1] = m;
+    for(int i = 2; i <= n; i++) e[i] = e[i - 1] * 2 / 3;
+
+    for(int i = 1; i <= n; i++)
     {
-        int n;
-		scanf("%d",&n);
-        printf("%lld\n",S[n]);
+        dp[i][1][0] = min(q[i], e[1]);
+        if(i > 2)
+        {
+            for(int j = 0; j <= i - 3; j++)
+            {
+                dp[i][1][0] = max(dp[i][1][0], dp[i - 3][j][0] + min(q[i], e[1]));
+                dp[i][1][0] = max(dp[i][1][0], dp[i - 3][j][1] + min(q[i], e[1]));
+            }
+        }
+
+        if(i > 1)
+        {
+            for(int j = 0; j <= i - 2; j++)
+            {
+                dp[i][0][1] = max(dp[i][0][1], dp[i - 2][j][0]);
+                dp[i][0][1] = max(dp[i][0][1], dp[i - 2][j][1]);
+            }
+        }
+
+        for(int j = 1; j <= i; j++)
+        {
+            dp[i][j][0] = max(dp[i][j][0], dp[i - 1][j - 1][0] + min(q[i], e[j]));
+            dp[i][j][0] = max(dp[i][j][0], dp[i - 1][j][0]);
+            if(i > 1)
+                dp[i][j][0] = max(dp[i][j][0], dp[i - 2][j][0] + min(q[i], e[j]));
+        }
     }
+
+    int ans = 0;
+    for(int i = 1; i <= n; i++)
+    {
+        for(int j = 0; j <= i; j++)
+        for(int k = 0; k < 2; k++)
+            ans = max(ans, dp[i][j][k]); 
+    }
+    printf("%d\n", ans);
     return 0;
 }
+/*
+900
+600 40 400 20 266 10 177
+*/

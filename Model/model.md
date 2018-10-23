@@ -1,99 +1,9 @@
 #数据结构
-##线段树
-```
-#include <bits/stdc++.h>
-using namespace std;
-#define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,b,sizeof(a))
-#define INF 0x7fffffff
-#define ll long long
-const int mod = 1e9 + 7;
-const int maxn = 1e6 + 100;
-struct Node
-{
-	int left,right,pos,lazy,v;
-}node[4*maxn];
-int a[maxn];
-int build(int left, int right, int pos=1)
-{
-	node[pos].left = left;
-	node[pos].right  = right;
-	node[pos].lazy = 0;
-	if (left == right){
-		node[pos].v  = a[left];
-		return node[pos].v;
-	}
-	int mid =(left+right)>>1;
-	int l = build(left,mid,2*pos);
-	int r = build(mid+1,right,2*pos+1);
-	return node[pos].v = max(l,r);
-}
-inline void push(int pos)
-{
-	if (!node[pos].lazy) return ;
-	node[2*pos].lazy += node[pos].lazy;
-	node[2*pos+1].lazy += node[pos].lazy;
-	node[2*pos].v += node[pos].lazy;
-	node[2*pos+1].v += node[pos].lazy;
-	node[pos].lazy = 0;
-}
-int update(int l,int r,int v,int pos=1)
-{
-	if (l>node[pos].right || r<node[pos].left)
-		return node[pos].v;
-	if (l<=node[pos].left && node[pos].right<=r){
-		node[pos].lazy += v;
-		return node[pos].v+=v;
-	}
-	push(pos);
-	int p = update(l,r,v,2*pos);
-	int q = update(l,r,v,2*pos+1);
-	return node[pos].v = max(p,q);
-}
-int query(int l,int r,int pos=1)
-{
-	if (l>node[pos].right || r<node[pos].left)
-		return 0;
-	if (l<=node[pos].left && node[pos].right<=r)
-		return node[pos].v;
-	push(pos);
-	int p = query(l,r,2*pos);
-	int q = query(l,r,2*pos+1);
-	return max(p,q);
-}
-int main()
-{
-	int n,m;
-	scanf("%d%d",&n,&m);
-	for (int i=1;i<=n;++i)
-		scanf("%d",&a[i]);
-	build(1,n);
-	int op;
-	int x,y,v;
-	while (m--){
-		scanf("%d",&op);
-		if (op){
-			scanf("%d%d",&x,&y);
-			printf("%d\n",query(x,y));
-		}
-		else{
-			scanf("%d%d%d",&x,&y,&v);
-			update(x,y,v);
-		}
-	}
-	return 0;
-}
 
-```
 ##主席树  
 
 ```
 #include <bits/stdc++.h>
-using namespace std;
-#define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,b,sizeof(a))
-#define MP(a,b) make_pair(a,b)
-#define INF 0x7fffffff
 #define ll long long
 const int mod = 1e9 + 7;
 const int maxn = 1e5 + 100;
@@ -137,25 +47,6 @@ int query(int left,int right,int k,Node *x,Node *y)
 }
 int main()
 {
-	int T,m;
-	scanf("%d",&T);
-	while (T--){
-		scanf("%d%d",&n,&m);
-		for (int i=1;i<=n;++i){
-			scanf("%d",&a[i]);
-			p[i]=a[i];
-		}
-		sort(p+1,p+1+n);
-		for (int i=1;i<=n;++i)
-			num[i] = lower_bound(p+1,p+1+n,a[i])-p;
-		build();
-		int l,r,k,pos;
-		for (int i=0;i<m;++i){
-			scanf("%d%d%d",&l,&r,&k);
-			pos = query(1,n,k,root[l-1],root[r]);
-			printf("%d\n",p[pos]);
-		}
-	}
 	return 0;
 }
 
@@ -166,10 +57,6 @@ int main()
 ```
 #include <bits/stdc++.h>
 using namespace std;
-#define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,b,sizeof(a))
-#define MP(a,b) make_pair(a,b)
-#define INF 0x7fffffff
 #define LL long long
 const int MOD = 1e9 + 7;
 const int maxn = 1e3 + 100;
@@ -196,7 +83,246 @@ int main()
 }
 
 ```  
+## Splay
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+const int mod = 1e9 + 7;
+const int maxn = 1e6 + 100;
+struct Node
+{
+	int v,size;
+	bool reverse;
+	Node *son[2],*father;
+}node[maxn],*stk[maxn];
+int id,top;
+Node *createNode(int v=0,Node *f=NULL){
+	Node *t = top>=0? stk[top--] : &node[++id];
+	t->v = v;
+	t->father = f;
+	t->size = 1;
+	t->reverse = false;
+	t->son[0] = t->son[1] = NULL;
+	return t;
+}
+void freeNode(Node *t) { stk[++top] = t; } 
 
+class Splay
+{
+private:
+	Node *root; 
+	bool son(Node *f,Node *s);
+	int size(Node *x);
+	void push_up(Node *x);
+	void push_down(Node *x);
+	void rotate(Node *x);
+	void splay(Node *x,Node *y = NULL);
+public:
+	Splay();
+	inline Node* Root();
+	void clear();
+	void init(int l,int r,int *a);
+	void insert(int x,int v);  
+	void insert(int x,int *a,int n);
+	void insert(int x,Node *y);
+	void vis(Node *p);
+	bool empty();
+	Node* erase(int l,int r);
+	Node* build(int l,int r,int *a,Node *f=NULL);
+	Node* kth(int k,Node *p);
+	Node* min(Node *p=NULL);
+	Node* max(Node *p=NULL);
+	Node* next(Node *x);
+	Node* pre(Node *x);
+	Node* select(int l,int r);
+	Node* reverse(int l,int r);
+}splay;
+int main()
+{
+
+	return 0;
+}
+
+bool Splay::son(Node *f,Node *s) { return f->son[1] == s;}
+int Splay::size(Node *x){return x? x->size:0;}
+void Splay::push_up(Node *x)
+{	
+	x->size = 1+size(x->son[0])+size(x->son[1]);
+}
+void Splay::push_down(Node *x)
+{
+	if (x->reverse){
+		if (x->son[0]) x->son[0]->reverse ^= 1;
+		if (x->son[1]) x->son[1]->reverse ^= 1;
+		swap(x->son[0],x->son[1]);
+		x->reverse = false;
+	}
+}
+void Splay::rotate(Node *x)
+{
+	Node *f = x->father;
+	Node *g = f->father;
+	push_down(f);
+	push_down(x);
+	int a = son(f,x);
+	int b = !a;
+	f->son[a] = x->son[b];
+	if (x->son[b]) x->son[b]->father = f;
+	x->son[b] = f;
+	f->father = x;
+	x->father = g;
+	if (g) g->son[son(g,f)] = x;
+	else root = x;
+	push_up(f);
+	push_up(x);
+}
+void Splay::splay(Node *x,Node *y)
+{
+	while (x->father != y){
+		Node *f = x->father;
+		Node *g = f->father;
+		if (g == y) {rotate(x);}
+		else {
+			if (son(f,x) ^ son(g,f)) rotate(x),rotate(x);
+			else rotate(f),rotate(x);
+		}
+	}
+	//push_up(x);
+}
+Splay::Splay(){ id=top=-1,root = NULL;}
+void Splay::clear(){id=top=-1,root=NULL;}
+bool Splay::empty() {return root == NULL;}
+inline Node* Splay::Root(){return root;}
+Node* Splay::build(int l,int r,int *a,Node *f)
+{
+	if (l>r) return NULL;
+	int mid = (l+r)>>1;
+	Node *t = createNode(a[mid],f);
+	t->son[0] = build(l,mid-1,a,t);
+	t->son[1] = build(mid+1,r,a,t);
+	push_up(t);
+	return t;
+}
+void Splay::init(int l,int r,int *a) {root = build(l,r,a,NULL);}
+Node* Splay::kth(int k,Node *p)
+{
+	push_down(p);
+	if (k <= size(p->son[0])) return kth(k,p->son[0]);
+	int t = size(p->son[0])+1;
+	if (k > t) return kth(k-t,p->son[1]);
+	splay(p,NULL);
+	return p;
+}
+void Splay::insert(int x,Node *y)
+{
+	Node* p = kth(x,root);
+	push_down(p);
+	if (!p->son[1]){
+		p->son[1] = y;
+		y->father = p;
+		p = p->son[1];
+	}
+	else{
+		p = p->son[1];
+		push_down(p);
+		while (p->son[0]){
+			p = p->son[0];
+			push_down(p);
+		}
+		p->son[0] = y;
+		y->father = p;
+		p = p->son[0];
+	}
+	splay(p,NULL);
+}
+void Splay::insert(int x,int v){ insert(x,createNode(v)); }
+void Splay::insert(int x,int *a,int n) { insert(x,build(1,n,a)); }
+Node* Splay::min(Node *p)
+{
+	if (!p) p = root;
+	push_down(p);
+	while (p && p->son[0]) {
+		p = p->son[0];
+		push_down(p);
+	}
+	return p;
+}
+Node* Splay::max(Node *p)
+{
+	if (!p) p = root;
+	push_down(p);
+	while (p && p->son[1]){
+		p = p->son[1];
+		push_down(p);
+	}
+	return p;
+}
+Node* Splay::next(Node *x)
+{
+	push_down(x);
+	if (x->son[1]){
+		x = x->son[1];
+		push_down(x);
+		while (x->son[0]){
+			x = x->son[0];
+			push_down(x);
+		}
+		return x;
+	}
+	Node *y = x->father;
+	while (y && son(y,x)){ x = y;  y = x->father; }
+	return y;
+}
+Node* Splay::pre(Node *x)
+{
+	push_down(x);
+	if (x->son[0]){
+		x = x->son[0];
+		push_down(x);
+		while (x->son[1]) {
+			x = x->son[1];
+			push_down(x);
+		}
+		return x;
+	}
+	Node *y = x->father;
+	while (y && !son(y,x)){ x = y; y = x->father; }
+	return y;
+}
+Node* Splay::select(int l,int r)
+{
+	Node *x = kth(l,root);
+	Node *y = kth(r,root);
+	Node *p = pre(x);
+	splay(p,NULL);
+	Node *t = next(y);
+	splay(t,root);
+	return t->son[0];
+}
+Node* Splay::reverse(int l,int r)
+{
+	Node *x = select(l,r);
+	x->reverse ^= 1;
+	return x;
+}
+void Splay::vis(Node *p)
+{
+	push_down(p);
+	if (p->son[0])  vis(p->son[0]);
+	printf("%d ",p->v);
+	if (p->son[1]) vis(p->son[1]);
+}
+Node* Splay::erase(int l,int r)
+{
+	Node* x = select(l,r);
+	Node* f = x->father;
+	f->son[son(f,x)] = NULL;
+	splay(f,NULL);
+	return x;
+}
+
+```
 #字符串  
 
 ##KMP  
@@ -204,16 +330,11 @@ int main()
 ```
 #include <bits/stdc++.h>
 using namespace std;
-#define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,b,sizeof(a))
-#define MP(a,b) make_pair(a,b)
-#define INF 0x7fffffff
 #define LL long long
 const int MOD = 1e9 + 7;
 const int maxn = 1e6 + 100;
 int next[maxn];
-char s[maxn];
-char str[maxn];
+char s[maxn], str[maxn];
 void getNext(char *s,int *next)
 {
 	int k=-1;
@@ -251,10 +372,6 @@ int main()
 ```
 #include <bits/stdc++.h>
 using namespace std;
-#define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,b,sizeof(a))
-#define MP(a,b) make_pair(a,b)
-#define INF 0x7fffffff
 #define ll long long
 const int mod = 1e9 + 7;
 const int maxn = 1e6 + 100;
@@ -334,110 +451,18 @@ inline int query(Node *root,char *s)
 	return ans;
 }
 int main()
-{
-	int T,n;
-	scanf("%d",&T);
-	while (T--){
-		scanf("%d",&n);
-		Node * root = &node[cnt++];
-		root->init();
-		for (int i=0;i<n;++i){
-			scanf("%s",s);
-			insert(root,s);
-		}
-		buildAC(root);
-		scanf("%s",s);
-		printf("%d\n",query(root,s));
-	}
+{	
 	return 0;
 }
 
 ```  
 
-##tarjan  
-
-```
-#include <bits/stdc++.h>
-using namespace std;
-#define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,b,sizeof(a))
-#define INF 0x7fffffff
-#define LL long long
-const int MOD = 1e9 + 7;
-const int maxn = 1e3 + 100;
-int dfn[maxn];//点i被访问的次序，时间戳
-int low[maxn];//点i可回溯到的在栈中最早的节点
-int belong[maxn];
-bool inStack[maxn];//点i是否在栈中
-int Index;//节点被访问次序的编号
-vector<int>edge[maxn];//边
-vector<int>edge2[maxn];//DAG图的边
-stack<int>S;//栈
-int cnt = 0;//强连通分量的总数/DAG图中点的个数
-int n;//节点数
-int m;//边数
-void init()//初始化
-{
-	Index = cnt = 0;
-	CL(dfn);
-	CL(low);
-	CL(inStack);
-	CL(belong);
-	for (int i = 0;i<maxn;i++){
-		edge2[i].clear(); edge[i].clear();
-	}
-}
-void tarjan(int u)
-{
-	dfn[u] = low[u] = ++Index;
-	S.push(u);
-	inStack[u] = true;
-	for (int i = 0;i<edge[u].size();i++){
-		int v = edge[u][i];
-		if (!dfn[v]){
-			tarjan(v);
-			low[u] = min(low[u],low[v]);
-		}
-		else if (inStack[v])
-			low[u] = min(low[u],dfn[v]);
-	}
-	if (dfn[u] ==  low[u]){
-		int t;
-		++cnt;
-		do{
-			t = S.top();
-			belong[t] = cnt;
-			S.pop();
-			inStack[t] = false;
-		}while (t != u);
-	}
-}
-void buildDAG()
-{
-	for (int i = 1;i <= n;i++){
-		for (int j = 0;j<edge[i].size();j++){
-			int v = edge[i][j];
-			if (belong[i] != belong[v])
-				edge2[belong[i]].push_back(belong[v]);
-		}
-	}
-}
-int main()
-{
-	return 0;
-}
-
-```
 
 ##LCA  
 
 ```
 #include <bits/stdc++.h>
 using namespace std;
-#define CL(a) memset(a,0,sizeof(a))
-#define Cl(a,b) memset(a,b,sizeof(a))
-#define MP(a,b) make_pair(a,b)
-#define INF 0x7fffffff
 #define ll long long
 #define ull unsigned long long
 const int mod = 1e9 + 7;
@@ -483,61 +508,61 @@ inline int lca(int a,int b)
 	return grand[a][0];
 }
 
-inline bool check(int d)
-{
-	int cnt = 0;
-	for (int i=0;i<u;++i){
-		int k = a[i];
-		if (depth[k]<d) continue;
-		int t = depth[k]-d;
-		for (int j=0;t;t>>=1,++j)
-			if (t&1) k = grand[k][j];
-		tmp[cnt++] = k;
-	}
-	if (cnt==0) return false;
-	sort(tmp,tmp+cnt);
-	cnt = unique(tmp,tmp+cnt)-tmp;
 
-	for (int i=0;i<cnt;++i){
-		for (int j=0;j<v;++j){
-			if (lca(tmp[i],b[j]) == tmp[i])
-				return true;
-		}
+int main()
+{
+	
+	return 0;
+}
+
+```
+
+## 后缀数组
+
+```
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+const int mod = 1e9 + 7;
+const int maxn = 1e6 + 100;
+const int maxm = 1e2 + 100;
+int wa[maxn],wb[maxn],wu[maxn],wv[maxn],sa[maxn];
+char s[maxn];
+bool cmp(int *y,int a,int b,int j)
+{
+	return y[a] == y[b] && y[a+j] == y[b+j];
+}
+void Suffix(char *s,int *sa,int n,int m)
+{
+	int *x = wa, *y = wb,i,j,k,p;
+	for (i = 0;i < m;++i) wu[i] = 0;
+	for (i = 0;i < n;++i) ++wu[x[i]=s[i]];
+	for (i = 1;i < m;++i) wu[i] += wu[i-1];
+	for (i = n-1;i >= 0;--i) sa[--wu[x[i]]] = i;
+	for (p = 1,j = 1;p < n;j <<= 1,m = p) {
+		for (p=0,i=n-j;i < n;++i) y[p++] = i;
+		for (i = 0;i < n;++i) if (sa[i] >= j) y[p++] = sa[i] - j;
+		for (i = 0;i < m;++i) wu[i] = 0;
+		for (i = 0;i < n;++i) wv[i] = x[y[i]];
+		for (i = 0;i < n;++i) ++wu[wv[i]];
+		for (i = 1;i < m;++i) wu[i] += wu[i-1];
+		for (i = n-1;i >= 0;--i) sa[--wu[wv[i]]] = y[i];
+		swap(x,y);
+		for (x[sa[0]]=0,p=1,i=1;i < n;++i)
+			x[sa[i]] = cmp(y,sa[i-1],sa[i],j)? p-1:p++;
 	}
-	return false;
+}
+int height[maxn],Rank[maxn];
+void calheight(char *s,int *sa,int n)
+{
+	int j,k;
+	for (int i = 1;i <= n;++i) Rank[sa[i]] = i;
+	for (int i = 0,k=0;i < n;height[Rank[i++]]=k)
+		for (k? k--:0,j=sa[Rank[i]-1];s[i+k] == s[j+k];++k);
 }
 int main()
 {
-	int m;
-	for (int i=1;i<=10000;++i)
-		Log[i] = Log[i/2]+1;
-	while (scanf("%d%d",&n,&m)!=EOF){
-		init(n);
-		for (int i=1;i<n;++i){
-			scanf("%d%d",&u,&v);
-			G[u].push_back(v);
-			G[v].push_back(u);
-		}
-		dfs();
-		while (m--){
-			scanf("%d",&u);
-			for (int i=0;i<u;++i)
-				scanf("%d",&a[i]);
-			scanf("%d",&v);
-			for (int i=0;i<v;++i)
-				scanf("%d",&b[i]);
-			int l=1;
-			int r=n+1;
-			while (l+1<r) {
-				int mid = (l+r)>>1;
-				if (check(mid))
-					l = mid;
-				else
-					r = mid;
-			}
-			printf("%d\n",l);
-		}
-	}
+
 	return 0;
 }
 

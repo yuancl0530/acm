@@ -11,38 +11,6 @@
 ## 思路
 >暴力计算显然会超时，可用树状数组优化
 
-此外在开始用了一个函数来判断lucky number，同样也会`TLE`了
-```
-int check(int n)
-{
-	while (n){
-		if (n%10 != 4 && n%10 != 7)
-			return 0;
-		n /= 10;
-	}
-	return 1;
-}
-
-/***读取并更新树状数组***/
-for (int i = 1;i <= n;i++){
-	scanf("%d",&a[i]);
-	if (check(a[i]))
-		update(i,1);
-	}
-```
-
-由于`a[i]<1e4`,先把`1～1e4`中所有的lucky number找出来。
-```
-int luck[10100];
-void dfs(int n)
-{
-	if (n > 10000)
-		return ;
-	luck[n] = 1;
-	dfs(10*n+4);
-	dfs(10*n+7);
-}
-```
 
 ## 代码
 ```
@@ -111,7 +79,8 @@ int main()
 			if (!strcmp(s,"count")){
 				scanf("%d%d",&l,&r);
 				printf("%d\n",Sum(r) - Sum(l-1));
-			}else{
+			}
+			else{
 				scanf("%d%d%d",&l,&r,&d);
 				for (int j = l;j <= r;j++){
 					int temp = a[j];

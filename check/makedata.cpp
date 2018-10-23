@@ -35,9 +35,12 @@ int f[maxn];
 int main()
 {
 	creatseed();
-	cout << 1 << endl;
-	int n = mrand(500);
-	cout<<n<<endl;
+	int n = mrand(5);
+	int m = mrand(100);
+	cout << n << " " << m << endl;
+	for (int i = 0;i < n;++i)
+		cout << mrand(100) << " " ;
+	cout << endl;
 	return 0;
 }
 /***************************************************************************/

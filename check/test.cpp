@@ -1,75 +1,48 @@
-#include <cstdio>
-#include <cstring>
-#include <cmath>
-#include <ctime>
-#include <iostream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <queue>
-#include <set>
-#include <map>
-#include <stack>
+/**
+    Author : Dsy
+**/
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+#include<algorithm>
+#include<time.h>
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<queue>
+#include<set>
+#include<map>
+
 using namespace std;
 
-#define ll long long
-#define mst(a) memset(a, 0, sizeof a)
+#define bll long long
 
-const int mod = 1e9+7;
-const int maxn = 2e7+50;
-const int inf = 1e9;
-
-bool is_prime[maxn];
-int prime[maxn];
-int p[maxn];
-int ans[maxn];
-ll pre[maxn];
-
-void euler()
-{
-    int cnt = 0;
-    for (int i = 2; i < maxn; ++i)
-        is_prime[i] = true;
-    for (int i = 2; i < maxn; ++i)
-    {
-        if (is_prime[i])
-        {
-            p[i] = 1;
-            prime[cnt++] = i;
-        }
-        for (int j = 0; j < cnt && prime[j]*i < maxn; ++j)
-        {
-            is_prime[i*prime[j]] = false;
-            if (i % prime[j] == 0)
-            {
-                if (i / prime[j] % prime[j] == 0) p[i*prime[j]] = -1;
-                else p[i*prime[j]] = p[i] - 1;
-                break;
-            }
-            if (p[i] == -1) p[i*prime[j]] = -1;
-            else p[i*prime[j]] = p[i] + 1;
-        }
-    }
-    for (int i = 1; i < maxn; ++i)
-    {
-        if (p[i] == -1) ans[i] = 0;
-        else ans[i] = 1 << p[i];
-    }
-    for (int i = 1; i < maxn; ++i)
-        pre[i] = pre[i-1] + ans[i];
-}
+const int maxm = 2e4+100;
+int a[110],dp[110][maxm];
 
 int main()
 {
-    //freopen("in", "r", stdin);
-    euler();
-    int T;
-    scanf("%d", &T);
-    while (T--)
+    int n,m;
+    while (scanf("%d %d",&n,&m)!=EOF)
     {
-        int n;
-        scanf("%d", &n);
-        printf("%lld\n", pre[n]);
+        for (int i=1;i<=n;i++) scanf("%d",&a[i]);
+        for (int i=0;i<=n+1;i++)
+            for (int j=0;j<=m;j++) dp[i][j] = -1;
+        dp[0][m] = 0;
+        for (int i=0;i<n;i++)
+            for (int j=0;j<=m;j++)
+            {
+                //if (dp[i][j] == -1) continue;
+                dp[i+1][j] = max(dp[i+1][j],dp[i][j]);  // stop 1 hour
+
+                dp[i+2][m] = max(dp[i+2][m],dp[i][j] + min(m,a[i+2]));  // stop 2 hours
+
+                dp[i+1][j*2/3] = max(dp[i+1][j*2/3] , dp[i][j] + min(j*2/3,a[i+1]));
+            }
+        int ans = 0;
+        for (int j=0;j<=m;j++) ans = max(ans,dp[n][j]); 
+        printf("%d\n",ans);
     }
     return 0;
 }
